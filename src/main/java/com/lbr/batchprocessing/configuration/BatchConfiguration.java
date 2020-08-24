@@ -3,6 +3,8 @@ package com.lbr.batchprocessing.configuration;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -14,6 +16,7 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.FlatFileItemWriter;
+import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
 import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
 import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
@@ -25,11 +28,15 @@ import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.batch.item.file.transform.PassThroughLineAggregator;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.core.io.FileSystemResource;
+import org.springframework.core.io.PathResource;
+import org.springframework.core.io.FileUrlResource;
+import org.springframework.core.io.Resource;
 
 import com.lbr.batchprocessing.mappers.CustomerMapper;
 import com.lbr.batchprocessing.mappers.SalesManMapper;
@@ -39,21 +46,29 @@ import com.lbr.batchprocessing.model.JobCompletionNotificationListener;
 import com.lbr.batchprocessing.model.Processor;
 import com.lbr.batchprocessing.model.Sales;
 import com.lbr.batchprocessing.model.SalesMan;
+import com.lbr.batchprocessing.writers.LineMongoWriter;
 
 @Configuration
 @EnableBatchProcessing
 public class BatchConfiguration {
 
+	private static final Logger logger = LoggerFactory.getLogger(BatchConfiguration.class);
+	
 	@Autowired
-	public JobBuilderFactory jobBuilderFactory;
+	private JobBuilderFactory jobBuilderFactory;
 	@Autowired
-	public StepBuilderFactory stepBuilderFactory;
+	private StepBuilderFactory stepBuilderFactory;
 	@Autowired
-	public SalesMapper salesMapper;
+	private SalesMapper salesMapper;
 	@Autowired
-	public CustomerMapper customerMapper;
+	private CustomerMapper customerMapper;
 	@Autowired
-	public SalesManMapper salesManMapper;
+	private SalesManMapper salesManMapper;
+	@Value("${input.file}")
+	private Resource[] inputResources;
+	@Autowired
+	private LineMongoWriter lineMongoWriter;
+	
 
 	@Bean
 	public PatternMatchingCompositeLineMapper patternMatchingCompositeLineMapper() {
@@ -97,14 +112,28 @@ public class BatchConfiguration {
 	}
 
 
+//	@Bean
+//	public ItemReader<Object> reader() {
+//		FlatFileItemReader<Object> fileItemReader = new FlatFileItemReader<>();
+//		fileItemReader.setResource(new ClassPathResource("*.dat"));
+//		fileItemReader.setLineMapper(patternMatchingCompositeLineMapper());
+//		return fileItemReader;
+//	}
+	
 	@Bean
-	public ItemReader<Object> reader() {
+	public FlatFileItemReader<Object> reader() {
 		FlatFileItemReader<Object> fileItemReader = new FlatFileItemReader<>();
-		fileItemReader.setResource(new ClassPathResource("test.dat"));
 		fileItemReader.setLineMapper(patternMatchingCompositeLineMapper());
-
 		return fileItemReader;
 	}
+	
+	@Bean
+	public ItemReader<Object> multiResourceItemReader() {
+		MultiResourceItemReader<Object> multiResourceItemReader = new MultiResourceItemReader<>();
+		multiResourceItemReader.setResources(inputResources);
+		multiResourceItemReader.setDelegate(reader());
+		return multiResourceItemReader;
+	}	
 
 	@Bean
 	<T> Processor<T> processor() {
@@ -112,20 +141,45 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Job importUserJob(JobCompletionNotificationListener listener, Step step1) {
-		return jobBuilderFactory.get("importUserJob")
+	public Job job(JobCompletionNotificationListener listener, Step step1, Step step2) {
+		return jobBuilderFactory.get("job")
 				.incrementer(new RunIdIncrementer())
 				.listener(listener)
 				.flow(step1)
+				.next(step2)
 				.end().build();
 	}
 
+//	@Bean
+//	public Step step1(FlatFileItemWriter writer) {
+//		//TODO
+//		logger.info("RUNNING =====>>>>>step1");
+//		return stepBuilderFactory.get("step1")
+//				.<Object, String>chunk(2)
+//				.reader(multiResourceItemReader())
+//				.processor(processor())
+//				.writer(writer).build();
+//	}
+
 	@Bean
-	public Step step1(FlatFileItemWriter writer) {
+	public Step step1(LineMongoWriter writer) {
+		//TODO
+		logger.info("RUNNING =====>>>>>step1");
 		return stepBuilderFactory.get("step1")
 				.<Object, String>chunk(2)
-				.reader(reader())
+				.reader(multiResourceItemReader())
 				.processor(processor())
+				.writer(writer).build();
+	}
+	
+	@Bean
+	public Step step2(FlatFileItemWriter writer) {
+		//TODO
+		logger.info("RUNNING =====>>>>>step2");
+		return stepBuilderFactory.get("step2")
+				.<Object, String>chunk(1)
+				.reader(multiResourceItemReader())
+//				.processor(processor())
 				.writer(writer).build();
 	}
 

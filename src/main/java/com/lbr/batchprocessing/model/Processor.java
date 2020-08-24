@@ -13,6 +13,9 @@ public class Processor<T> implements ItemProcessor<T, String>{
 	@Override
 	public String process(T item) throws Exception {
 		logger.info("PROCESSOR ITEM ----> " + item.toString());
+//		logger.info("PROCESSOR INSTANCE OF SALESMAN ----> " + (item instanceof SalesMan));
+//		logger.info("PROCESSOR INSTANCE OF CUSTOMER ----> " + (item instanceof Customer));
+//		logger.info("PROCESSOR INSTANCE OF SALES ----> " + (item instanceof Sales));
 		return item.toString();
 	};
 }

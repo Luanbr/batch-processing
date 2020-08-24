@@ -2,7 +2,13 @@ package com.lbr.batchprocessing.model;
 
 import java.util.List;
 
+import org.springframework.data.annotation.Id;
+import org.springframework.data.mongodb.core.mapping.Document;
+
+@Document(collection = "sales")
 public class Sales {
+	@Id
+	private String _id;
 	private String id;
 	private Long saleId;
 	private List<Item> items;

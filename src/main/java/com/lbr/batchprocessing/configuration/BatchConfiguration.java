@@ -162,14 +162,14 @@ public class BatchConfiguration {
 //	}
 
 	@Bean
-	public Step step1(LineMongoWriter writer) {
+	public Step step1() {
 		//TODO
 		logger.info("RUNNING =====>>>>>step1");
 		return stepBuilderFactory.get("step1")
-				.<Object, String>chunk(2)
+				.<Object, Object>chunk(2)
 				.reader(multiResourceItemReader())
 				.processor(processor())
-				.writer(writer).build();
+				.writer(lineMongoWriter).build();
 	}
 	
 	@Bean
@@ -184,10 +184,10 @@ public class BatchConfiguration {
 	}
 
 //	@Bean
-//    public FlatFileItemWriter<Cliente> writer() 
+//    public FlatFileItemWriter<Customer> writer() 
 //    {
 //        //Create writer instance
-//        FlatFileItemWriter<Cliente> writer = new FlatFileItemWriter<>();
+//        FlatFileItemWriter<Customer> writer = new FlatFileItemWriter<>();
 //         
 //        //Set output file location
 //        writer.setResource(new ClassPathResource("output/outputData.csv"));
@@ -196,10 +196,10 @@ public class BatchConfiguration {
 //        writer.setAppendAllowed(true);
 //        
 //      //Name field values sequence based on object properties 
-//        writer.setLineAggregator(new DelimitedLineAggregator<Cliente>() {
+//        writer.setLineAggregator(new DelimitedLineAggregator<Customer>() {
 //            {
 //                setDelimiter(",");
-//                setFieldExtractor(new BeanWrapperFieldExtractor<Cliente>() {
+//                setFieldExtractor(new BeanWrapperFieldExtractor<Customer>() {
 //                    {
 //                        setNames(new String[] { "id" });
 //                    }

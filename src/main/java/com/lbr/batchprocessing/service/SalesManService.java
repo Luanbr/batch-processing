@@ -28,4 +28,8 @@ public class SalesManService {
 	public Long countSalesManDistinctByCnpj() {
 		return customRepository.countSalesManDistinctByCpf();
 	}
+
+	public void deleteAll() {
+		repository.deleteAll();
+	}
 }

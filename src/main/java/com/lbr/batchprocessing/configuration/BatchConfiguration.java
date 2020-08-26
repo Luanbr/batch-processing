@@ -12,41 +12,27 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.database.JdbcBatchItemWriter;
 import org.springframework.batch.item.file.FlatFileItemReader;
-import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.batch.item.file.MultiResourceItemReader;
-import org.springframework.batch.item.file.builder.FlatFileItemReaderBuilder;
-import org.springframework.batch.item.file.builder.FlatFileItemWriterBuilder;
-import org.springframework.batch.item.file.mapping.BeanWrapperFieldSetMapper;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.mapping.PatternMatchingCompositeLineMapper;
-import org.springframework.batch.item.file.transform.BeanWrapperFieldExtractor;
-import org.springframework.batch.item.file.transform.DelimitedLineAggregator;
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.batch.item.file.transform.LineTokenizer;
-import org.springframework.batch.item.file.transform.PassThroughLineAggregator;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Scope;
-import org.springframework.core.io.ClassPathResource;
-import org.springframework.core.io.FileSystemResource;
-import org.springframework.core.io.PathResource;
-import org.springframework.core.io.FileUrlResource;
 import org.springframework.core.io.Resource;
 
 import com.lbr.batchprocessing.mappers.CustomerMapper;
 import com.lbr.batchprocessing.mappers.SalesManMapper;
 import com.lbr.batchprocessing.mappers.SalesMapper;
-import com.lbr.batchprocessing.model.Customer;
 import com.lbr.batchprocessing.model.JobCompletionNotificationListener;
 import com.lbr.batchprocessing.model.Processor;
-import com.lbr.batchprocessing.model.Sales;
-import com.lbr.batchprocessing.model.SalesMan;
+import com.lbr.batchprocessing.model.Summarize;
+import com.lbr.batchprocessing.readers.SummarizeReader;
 import com.lbr.batchprocessing.writers.LineMongoWriter;
+import com.lbr.batchprocessing.writers.SummarizeWriter;
 
 @Configuration
 @EnableBatchProcessing
@@ -68,6 +54,10 @@ public class BatchConfiguration {
 	private Resource[] inputResources;
 	@Autowired
 	private LineMongoWriter lineMongoWriter;
+	@Autowired
+	private SummarizeWriter summarizeWriter;
+	@Autowired
+	private SummarizeReader summarizeReader;
 	
 
 	@Bean
@@ -110,15 +100,6 @@ public class BatchConfiguration {
 		lineTokenizer.setNames(new String[] { "id", "salesId", "items", "salesManName" });
 		return lineTokenizer;
 	}
-
-
-//	@Bean
-//	public ItemReader<Object> reader() {
-//		FlatFileItemReader<Object> fileItemReader = new FlatFileItemReader<>();
-//		fileItemReader.setResource(new ClassPathResource("*.dat"));
-//		fileItemReader.setLineMapper(patternMatchingCompositeLineMapper());
-//		return fileItemReader;
-//	}
 	
 	@Bean
 	public FlatFileItemReader<Object> reader() {
@@ -150,21 +131,8 @@ public class BatchConfiguration {
 				.end().build();
 	}
 
-//	@Bean
-//	public Step step1(FlatFileItemWriter writer) {
-//		//TODO
-//		logger.info("RUNNING =====>>>>>step1");
-//		return stepBuilderFactory.get("step1")
-//				.<Object, String>chunk(2)
-//				.reader(multiResourceItemReader())
-//				.processor(processor())
-//				.writer(writer).build();
-//	}
-
 	@Bean
 	public Step step1() {
-		//TODO
-		logger.info("RUNNING =====>>>>>step1");
 		return stepBuilderFactory.get("step1")
 				.<Object, Object>chunk(2)
 				.reader(multiResourceItemReader())
@@ -173,47 +141,11 @@ public class BatchConfiguration {
 	}
 	
 	@Bean
-	public Step step2(FlatFileItemWriter writer) {
-		//TODO
-		logger.info("RUNNING =====>>>>>step2");
+	public Step step2() {
 		return stepBuilderFactory.get("step2")
-				.<Object, String>chunk(1)
-				.reader(multiResourceItemReader())
-//				.processor(processor())
-				.writer(writer).build();
+				.<Object, Summarize>chunk(1)
+				.reader(summarizeReader)
+				.writer(summarizeWriter).build();
 	}
 
-//	@Bean
-//    public FlatFileItemWriter<Customer> writer() 
-//    {
-//        //Create writer instance
-//        FlatFileItemWriter<Customer> writer = new FlatFileItemWriter<>();
-//         
-//        //Set output file location
-//        writer.setResource(new ClassPathResource("output/outputData.csv"));
-//         
-//        //All job repetitions should "append" to same output file
-//        writer.setAppendAllowed(true);
-//        
-//      //Name field values sequence based on object properties 
-//        writer.setLineAggregator(new DelimitedLineAggregator<Customer>() {
-//            {
-//                setDelimiter(",");
-//                setFieldExtractor(new BeanWrapperFieldExtractor<Customer>() {
-//                    {
-//                        setNames(new String[] { "id" });
-//                    }
-//                });
-//            }
-//        });
-//         
-//        return writer;
-//    }
-
-	@Bean
-	public FlatFileItemWriter writer() {
-		return new FlatFileItemWriterBuilder<String>().name("writer")
-				.resource(new FileSystemResource("target/test-outputs/output.txt"))
-				.lineAggregator(new PassThroughLineAggregator<>()).build();
-	}
 }

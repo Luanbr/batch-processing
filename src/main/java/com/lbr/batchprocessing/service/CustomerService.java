@@ -24,4 +24,8 @@ public class CustomerService {
 	public Long countCustomerDistinctByCnpj() {
 		return customRepository.countCustomerDistinctByCnpj();
 	}
+
+	public void deleteAll() {
+		repository.deleteAll();
+	}
 }

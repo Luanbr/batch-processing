@@ -34,4 +34,8 @@ public class SalesService {
 	public WorstSeller findWorstSeller() {
 		return customRepository.findWorstSeller();
 	}
+
+	public void deleteAll() {
+		repository.deleteAll();
+	}
 }

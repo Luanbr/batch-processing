@@ -97,6 +97,7 @@ public class BatchConfiguration {
 	@Bean
 	public FlatFileItemReader<Object> reader() {
 		FlatFileItemReader<Object> fileItemReader = new FlatFileItemReader<>();
+		fileItemReader.setEncoding("UTF-8");
 		fileItemReader.setLineMapper(patternMatchingCompositeLineMapper());
 		return fileItemReader;
 	}

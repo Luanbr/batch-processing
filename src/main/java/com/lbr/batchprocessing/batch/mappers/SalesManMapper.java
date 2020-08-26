@@ -1,4 +1,4 @@
-package com.lbr.batchprocessing.mappers;
+package com.lbr.batchprocessing.batch.mappers;
 
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.transform.FieldSet;

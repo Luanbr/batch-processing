@@ -1,4 +1,4 @@
-package com.lbr.batchprocessing.mappers;
+package com.lbr.batchprocessing.batch.mappers;
 
 import java.util.Arrays;
 import java.util.stream.Collectors;

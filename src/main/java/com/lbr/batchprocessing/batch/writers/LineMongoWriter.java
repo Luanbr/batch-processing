@@ -1,4 +1,4 @@
-package com.lbr.batchprocessing.writers;
+package com.lbr.batchprocessing.batch.writers;
 
 import java.util.List;
 

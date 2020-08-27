@@ -17,4 +17,13 @@ io:
       worstSeller: PIOR_VENDEDOR
       
 batch:
-  schedulerInMilliseconds: 60000
+  schedulerInMilliseconds: 600000
+  
+spring:
+  data:
+    mongodb:
+      database: batch_db
+      port: 27017
+      host: localhost
+      #username: 
+      #password:

@@ -21,7 +21,6 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 
 import com.lbr.batchprocessing.batch.JobCompletionNotificationListener;
-import com.lbr.batchprocessing.batch.Processor;
 import com.lbr.batchprocessing.batch.mappers.CustomerMapper;
 import com.lbr.batchprocessing.batch.mappers.SaleMapper;
 import com.lbr.batchprocessing.batch.mappers.SalesmanMapper;
@@ -109,11 +108,6 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	<T> Processor<T> processor() {
-		return new Processor<>();
-	}
-
-	@Bean
 	public Job readFilesJob(JobCompletionNotificationListener listener, Step readAndSaveOnMongoStep,
 			Step analyseAndWriteStep) {
 		return jobBuilderFactory.get("readFilesJob").listener(listener).flow(readAndSaveOnMongoStep)
@@ -122,9 +116,8 @@ public class BatchConfiguration {
 
 	@Bean
 	public Step readAndSaveOnMongoStep() {
-		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(10)
+		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(300)
 				.reader(multiResourceItemReader())
-				.processor(processor())
 				.writer(lineMongoWriter).build();
 	}
 

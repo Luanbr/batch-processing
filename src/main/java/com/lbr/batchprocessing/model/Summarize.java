@@ -54,7 +54,7 @@ public class Summarize {
 
 	public boolean isEmpty() {
 		return (this.customersQuantity == _0 && this.sellersQuantity == _0 && this.biggestSale == null
-				&& this.worstSeller == null) ? true : false;
+				&& this.worstSeller == null);
 	}
 
 	public String header() {

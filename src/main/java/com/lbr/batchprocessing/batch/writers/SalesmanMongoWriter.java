@@ -11,20 +11,21 @@ import com.lbr.batchprocessing.model.Salesman;
 import com.lbr.batchprocessing.service.SalesmanService;
 
 @Component
-public class SalesmanMongoWriter implements ItemWriter<Salesman>{
+public class SalesmanMongoWriter implements ItemWriter<Salesman>, LineWriter<Salesman> {
 
 	@Autowired
 	private SalesmanService salesManService;
-	
+
 	@Override
 	public void write(List<? extends Salesman> items) throws Exception {
 		salesManService.saveAll(items);
 	}
-	
-	public void write(Salesman item) throws Exception {
+
+	@Override
+	public void write(Object item) throws Exception {
 		List<Salesman> sellers = new ArrayList<>();
-		sellers.add(item);
+		sellers.add((Salesman) item);
 		write(sellers);
 	}
-	
+
 }

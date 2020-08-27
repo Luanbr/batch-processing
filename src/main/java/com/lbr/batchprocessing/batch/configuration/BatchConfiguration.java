@@ -114,16 +114,18 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Job customJob(JobCompletionNotificationListener listener, Step readAndSaveOnMongoStep,
+	public Job readFilesJob(JobCompletionNotificationListener listener, Step readAndSaveOnMongoStep,
 			Step analyseAndWriteStep) {
-		return jobBuilderFactory.get("customJob").listener(listener).flow(readAndSaveOnMongoStep)
+		return jobBuilderFactory.get("readFilesJob").listener(listener).flow(readAndSaveOnMongoStep)
 				.next(analyseAndWriteStep).end().build();
 	}
 
 	@Bean
 	public Step readAndSaveOnMongoStep() {
 		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(10)
-				.reader(multiResourceItemReader()).processor(processor()).writer(lineMongoWriter).build();
+				.reader(multiResourceItemReader())
+				.processor(processor())
+				.writer(lineMongoWriter).build();
 	}
 
 	@Bean

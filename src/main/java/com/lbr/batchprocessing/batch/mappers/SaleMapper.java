@@ -22,9 +22,12 @@ public class SaleMapper implements FieldSetMapper<Sale> {
 		Sale vendas = new Sale();
 		vendas.setSaleId(fieldSet.readLong("salesId"));
 		vendas.setItems(
-				Arrays.stream(fieldSet.readString("items").replace("[", "").replace("]", "").split(",")).map(item -> {
+				Arrays.stream(fieldSet.readString("items").replaceAll("\\[(.*)\\]", "$1").split(",")).map(item -> {
 					String[] value = item.split("-");
-					return new Item(Long.valueOf(value[0]), Long.valueOf(value[1]), Double.valueOf(value[2]));
+					Long id = Long.valueOf(value[0]);
+					Long quantity = Long.valueOf(value[1]);
+					Double price = Double.valueOf(value[2]);
+					return new Item(id, quantity, price);
 				}).collect(Collectors.toList()));
 		vendas.setSalesmanName(fieldSet.readString("salesManName"));
 		return vendas;

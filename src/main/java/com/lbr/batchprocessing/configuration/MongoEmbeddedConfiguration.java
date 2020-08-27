@@ -16,6 +16,8 @@ import de.flapdoodle.embed.process.runtime.Network;
 
 @Configuration
 public class MongoEmbeddedConfiguration {
+	private static final int DEFAULT_PORT = 27017;
+	private static final String LOCALHOST = "localhost";
 	private MongodExecutable mongodExecutable;
 	
     public void clean() {
@@ -24,10 +26,8 @@ public class MongoEmbeddedConfiguration {
 
 	@Bean
 	public MongoTemplate mongoTemplate() throws Exception {
-		String ip = "localhost";
-		int port = 27017;
 		IMongodConfig mongodConfig = new MongodConfigBuilder().version(Version.Main.PRODUCTION)
-				.net(new Net(ip, port, Network.localhostIsIPv6())).build();
+				.net(new Net(LOCALHOST, DEFAULT_PORT, Network.localhostIsIPv6())).build();
 		MongodStarter starter = MongodStarter.getDefaultInstance();
 		mongodExecutable = starter.prepare(mongodConfig);
 		mongodExecutable.start();

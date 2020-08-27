@@ -12,7 +12,7 @@ public class Processor<T> implements ItemProcessor<T, T>{
 
 	@Override
 	public T process(T item) throws Exception {
-		logger.info("PROCESSOR ITEM ----> " + item.toString());
+		logger.info("PROCESSING: " + item.toString());
 		return item;
 	};
 }

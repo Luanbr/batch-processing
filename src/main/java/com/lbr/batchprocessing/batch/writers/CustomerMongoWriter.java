@@ -11,7 +11,7 @@ import com.lbr.batchprocessing.model.Customer;
 import com.lbr.batchprocessing.service.CustomerService;
 
 @Component
-public class CustomerMongoWriter implements ItemWriter<Customer>{
+public class CustomerMongoWriter implements ItemWriter<Customer>, LineWriter<Customer>{
 
 	@Autowired
 	private CustomerService customerService;
@@ -20,11 +20,12 @@ public class CustomerMongoWriter implements ItemWriter<Customer>{
 	public void write(List<? extends Customer> items) throws Exception {
 		customerService.saveAll(items);
 	}
-	
-	public void write(Customer item) throws Exception {
+
+	@Override
+	public void write(Object item) throws Exception {
 		List<Customer> customers = new ArrayList<>();
-		customers.add(item);
+		customers.add((Customer) item);
 		write(customers);
 	}
-	
+
 }

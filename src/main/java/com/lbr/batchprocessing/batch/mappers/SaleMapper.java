@@ -9,25 +9,24 @@ import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 
 import com.lbr.batchprocessing.model.Item;
-import com.lbr.batchprocessing.model.Sales;
+import com.lbr.batchprocessing.model.Sale;
 
 @Component
-public class SalesMapper implements FieldSetMapper<Sales> {
+public class SaleMapper implements FieldSetMapper<Sale> {
 
 	@Override
-	public Sales mapFieldSet(FieldSet fieldSet) throws BindException {
+	public Sale mapFieldSet(FieldSet fieldSet) throws BindException {
 		if (fieldSet == null) {
 			return null;
 		}
-		Sales vendas = new Sales();
-		vendas.setId(fieldSet.readString("id"));
+		Sale vendas = new Sale();
 		vendas.setSaleId(fieldSet.readLong("salesId"));
 		vendas.setItems(
 				Arrays.stream(fieldSet.readString("items").replace("[", "").replace("]", "").split(",")).map(item -> {
 					String[] value = item.split("-");
 					return new Item(Long.valueOf(value[0]), Long.valueOf(value[1]), Double.valueOf(value[2]));
 				}).collect(Collectors.toList()));
-		vendas.setSalesManName(fieldSet.readString("salesManName"));
+		vendas.setSalesmanName(fieldSet.readString("salesManName"));
 		return vendas;
 	}
 }

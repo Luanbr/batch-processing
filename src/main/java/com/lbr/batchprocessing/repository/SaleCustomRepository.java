@@ -9,11 +9,11 @@ import org.springframework.data.mongodb.core.aggregation.ArithmeticOperators;
 import org.springframework.stereotype.Repository;
 
 import com.lbr.batchprocessing.model.BiggestSale;
-import com.lbr.batchprocessing.model.Sales;
-import com.lbr.batchprocessing.model.WorstSeller;
+import com.lbr.batchprocessing.model.Sale;
+import com.lbr.batchprocessing.model.WorstSalesman;
 
 @Repository
-public class SalesRepositoryCustom {
+public class SaleCustomRepository {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 
@@ -29,11 +29,11 @@ public class SalesRepositoryCustom {
 	public BiggestSale findBiggestSale() {
 		Aggregation aggregation = Aggregation.newAggregation(Aggregation.unwind("items"),
 				Aggregation.group("saleId")
-						.sum(ArithmeticOperators.Multiply.valueOf("items.itemPrice").multiplyBy("items.itemQuantity"))
+						.sum(ArithmeticOperators.Multiply.valueOf("items.price").multiplyBy("items.quantity"))
 						.as("total"),
 				Aggregation.project("total").and("saleId").previousOperation(),
 				Aggregation.sort(Sort.Direction.DESC, "total"), Aggregation.limit(1));
-		AggregationResults<BiggestSale> aggregationResults = mongoTemplate.aggregate(aggregation, Sales.class,
+		AggregationResults<BiggestSale> aggregationResults = mongoTemplate.aggregate(aggregation, Sale.class,
 				BiggestSale.class);
 		BiggestSale biggestSale = aggregationResults.getUniqueMappedResult();
 		return biggestSale;
@@ -47,16 +47,16 @@ public class SalesRepositoryCustom {
 	 * 
 	 * @return
 	 */
-	public WorstSeller findWorstSeller() {
+	public WorstSalesman findWorstSeller() {
 		Aggregation aggregation = Aggregation.newAggregation(Aggregation.unwind("items"),
-				Aggregation.group("salesManName")
-						.sum(ArithmeticOperators.Multiply.valueOf("items.itemPrice").multiplyBy("items.itemQuantity"))
+				Aggregation.group("salesmanName")
+						.sum(ArithmeticOperators.Multiply.valueOf("items.price").multiplyBy("items.quantity"))
 						.as("total"),
-				Aggregation.project("total").and("salesManName").previousOperation(),
+				Aggregation.project("total").and("salesmanName").previousOperation(),
 				Aggregation.sort(Sort.Direction.ASC, "total"), Aggregation.limit(1));
-		AggregationResults<WorstSeller> aggregationResults = mongoTemplate.aggregate(aggregation, Sales.class,
-				WorstSeller.class);
-		WorstSeller worstSeller = aggregationResults.getUniqueMappedResult();
+		AggregationResults<WorstSalesman> aggregationResults = mongoTemplate.aggregate(aggregation, Sale.class,
+				WorstSalesman.class);
+		WorstSalesman worstSeller = aggregationResults.getUniqueMappedResult();
 		return worstSeller;
 	}
 

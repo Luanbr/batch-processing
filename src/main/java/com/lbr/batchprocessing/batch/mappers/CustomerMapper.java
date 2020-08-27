@@ -16,7 +16,6 @@ public class CustomerMapper implements FieldSetMapper<Customer> {
 			return null;
 		}
 		Customer customer = new Customer();
-		customer.setId(fieldSet.readString("id"));
 		customer.setCnpj(fieldSet.readLong("cnpj"));
 		customer.setName(fieldSet.readString("name"));
 		customer.setBusinessArea(fieldSet.readString("businessArea"));

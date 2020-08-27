@@ -7,7 +7,6 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Customer {
 	@Id
 	private String _id;
-	private String id;
 	private Long cnpj;
 	private String name;
 	private String businessArea;
@@ -15,9 +14,8 @@ public class Customer {
 	public Customer() {
 	}
 
-	public Customer(String id, Long cnpj, String name, String businessArea) {
+	public Customer(Long cnpj, String name, String businessArea) {
 		super();
-		this.id = id;
 		this.cnpj = cnpj;
 		this.name = name;
 		this.businessArea = businessArea;
@@ -46,17 +44,9 @@ public class Customer {
 	public void setBusinessArea(String businessArea) {
 		this.businessArea = businessArea;
 	}
-	
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
 
 	@Override
 	public String toString() {
-		return "Customer [id=" + id + ", cnpj=" + cnpj + ", name=" + name + ", businessArea=" + businessArea + "]";
+		return "Customer [_id=" + _id + ", cnpj=" + cnpj + ", name=" + name + ", businessArea=" + businessArea + "]";
 	}
 }

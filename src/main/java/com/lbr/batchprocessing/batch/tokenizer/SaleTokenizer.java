@@ -5,9 +5,9 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
 @Component
-public class SalesTokenizer extends DelimitedLineTokenizer {
+public class SaleTokenizer extends DelimitedLineTokenizer {
 
-	public SalesTokenizer(@Value("${io.input.delimiter}") final String delimiter) {
+	public SaleTokenizer(@Value("${io.input.delimiter}") final String delimiter) {
 		this.setDelimiter(delimiter);
 		this.setNames(new String[] { "id", "salesId", "items", "salesManName" });
 	}

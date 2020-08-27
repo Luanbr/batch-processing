@@ -9,8 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import com.lbr.batchprocessing.model.Customer;
-import com.lbr.batchprocessing.model.Sales;
-import com.lbr.batchprocessing.model.SalesMan;
+import com.lbr.batchprocessing.model.Sale;
+import com.lbr.batchprocessing.model.Salesman;
 
 @Component
 public class LineMongoWriter implements ItemWriter<Object> {
@@ -19,9 +19,9 @@ public class LineMongoWriter implements ItemWriter<Object> {
 	@Autowired
 	private CustomerMongoWriter customerWriter;
 	@Autowired
-	private SalesManMongoWriter salesManWriter;
+	private SalesmanMongoWriter salesManWriter;
 	@Autowired
-	private SalesMongoWriter salesWriter;
+	private SaleMongoWriter salesWriter;
 
 	@Override
 	public void write(List<? extends Object> items) throws Exception {
@@ -29,10 +29,10 @@ public class LineMongoWriter implements ItemWriter<Object> {
 			try {
 				if (item instanceof Customer) {
 					customerWriter.write((Customer) item);
-				} else if (item instanceof SalesMan) {
-					salesManWriter.write((SalesMan) item);
-				} else if (item instanceof Sales) {
-					salesWriter.write((Sales) item);
+				} else if (item instanceof Salesman) {
+					salesManWriter.write((Salesman) item);
+				} else if (item instanceof Sale) {
+					salesWriter.write((Sale) item);
 				}
 			} catch (Exception e) {
 				logger.error("Error in LineMongoWriter ", e);

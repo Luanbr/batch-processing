@@ -5,18 +5,17 @@ import org.springframework.batch.item.file.transform.FieldSet;
 import org.springframework.stereotype.Component;
 import org.springframework.validation.BindException;
 
-import com.lbr.batchprocessing.model.SalesMan;
+import com.lbr.batchprocessing.model.Salesman;
 
 @Component
-public class SalesManMapper implements FieldSetMapper<SalesMan> {
+public class SalesmanMapper implements FieldSetMapper<Salesman> {
 
 	@Override
-	public SalesMan mapFieldSet(FieldSet fieldSet) throws BindException {
+	public Salesman mapFieldSet(FieldSet fieldSet) throws BindException {
 		if (fieldSet == null) {
 			return null;
 		}
-		SalesMan salesMan = new SalesMan();
-		salesMan.setId(fieldSet.readString("id"));
+		Salesman salesMan = new Salesman();
 		salesMan.setCpf(fieldSet.readLong("cpf"));
 		salesMan.setName(fieldSet.readString("name"));
 		salesMan.setSalary(fieldSet.readDouble("salary"));

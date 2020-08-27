@@ -1,47 +1,47 @@
 package com.lbr.batchprocessing.model;
 
 public class Item {
-	private Long itemId;
-	private Long itemQuantity;
-	private Double itemPrice;
+	private Long id;
+	private Long quantity;
+	private Double price;
 
 	public Item() {
 	}
 
-	public Item(Long itemId, Long itemQuantity, Double itemPrice) {
+	public Item(Long id, Long quantity, Double price) {
 		super();
-		this.itemId = itemId;
-		this.itemQuantity = itemQuantity;
-		this.itemPrice = itemPrice;
+		this.id = id;
+		this.quantity = quantity;
+		this.price = price;
 	}
 
-	public Long getItemId() {
-		return itemId;
+	public Long getId() {
+		return id;
 	}
 
-	public void setItemId(Long itemId) {
-		this.itemId = itemId;
+	public void setId(Long id) {
+		this.id = id;
 	}
 
-	public Long getItemQuantity() {
-		return itemQuantity;
+	public Long getQuantity() {
+		return quantity;
 	}
 
-	public void setItemQuantity(Long itemQuantity) {
-		this.itemQuantity = itemQuantity;
+	public void setQuantity(Long quantity) {
+		this.quantity = quantity;
 	}
 
-	public Double getItemPrice() {
-		return itemPrice;
+	public Double getPrice() {
+		return price;
 	}
 
-	public void setItemPrice(Double itemPrice) {
-		this.itemPrice = itemPrice;
+	public void setPrice(Double price) {
+		this.price = price;
 	}
 
 	@Override
 	public String toString() {
-		return "Item [itemId=" + itemId + ", itemQuantity=" + itemQuantity + ", itemPrice=" + itemPrice + "]";
+		return "Item [id=" + id + ", quantity=" + quantity + ", price=" + price + "]";
 	}
 
 }

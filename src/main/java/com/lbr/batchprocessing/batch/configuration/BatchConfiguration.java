@@ -3,8 +3,6 @@ package com.lbr.batchprocessing.batch.configuration;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
@@ -25,12 +23,12 @@ import org.springframework.core.io.Resource;
 import com.lbr.batchprocessing.batch.JobCompletionNotificationListener;
 import com.lbr.batchprocessing.batch.Processor;
 import com.lbr.batchprocessing.batch.mappers.CustomerMapper;
-import com.lbr.batchprocessing.batch.mappers.SalesManMapper;
-import com.lbr.batchprocessing.batch.mappers.SalesMapper;
+import com.lbr.batchprocessing.batch.mappers.SaleMapper;
+import com.lbr.batchprocessing.batch.mappers.SalesmanMapper;
 import com.lbr.batchprocessing.batch.readers.SummarizeReader;
 import com.lbr.batchprocessing.batch.tokenizer.CustomerTokenizer;
-import com.lbr.batchprocessing.batch.tokenizer.SalesManTokenizer;
-import com.lbr.batchprocessing.batch.tokenizer.SalesTokenizer;
+import com.lbr.batchprocessing.batch.tokenizer.SaleTokenizer;
+import com.lbr.batchprocessing.batch.tokenizer.SalesmanTokenizer;
 import com.lbr.batchprocessing.batch.writers.LineMongoWriter;
 import com.lbr.batchprocessing.batch.writers.SummarizeWriter;
 import com.lbr.batchprocessing.model.Summarize;
@@ -39,29 +37,21 @@ import com.lbr.batchprocessing.model.Summarize;
 @EnableBatchProcessing
 public class BatchConfiguration {
 
-	private static final Logger logger = LoggerFactory.getLogger(BatchConfiguration.class);
-
 	private final static String FORMART = "%s%s*";
 	@Value("${io.input.file}")
 	private Resource[] inputResources;
-	@Value("${io.input.delimiter}")
-	private String delimiter;
-	@Value("${io.input.salesMan.lineId}")
-	private String salesManLineId;
-	@Value("${io.input.customer.lineId}")
-	private String customerLineId;
-	@Value("${io.input.sales.lineId}")
-	private String salesLineId;
+	@Autowired
+	private InputFileConfigProperties configProperties;
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
 	@Autowired
-	private SalesMapper salesMapper;
+	private SaleMapper salesMapper;
 	@Autowired
 	private CustomerMapper customerMapper;
 	@Autowired
-	private SalesManMapper salesManMapper;
+	private SalesmanMapper salesManMapper;
 	@Autowired
 	private LineMongoWriter lineMongoWriter;
 	@Autowired
@@ -69,26 +59,34 @@ public class BatchConfiguration {
 	@Autowired
 	private SummarizeReader summarizeReader;
 	@Autowired
-	private SalesManTokenizer salesManTokenizer;
+	private SalesmanTokenizer salesManTokenizer;
 	@Autowired
 	private CustomerTokenizer customerTokenizer;
 	@Autowired
-	private SalesTokenizer salesTokenizer;
+	private SaleTokenizer salesTokenizer;
 
 	@Bean
 	public PatternMatchingCompositeLineMapper patternMatchingCompositeLineMapper() {
 		PatternMatchingCompositeLineMapper compositeLineMapper = new PatternMatchingCompositeLineMapper<Object>();
 		Map<String, LineTokenizer> tokenizers = new HashMap<>(3);
-		tokenizers.put(String.format(FORMART, salesManLineId, delimiter), salesManTokenizer);
-		tokenizers.put(String.format(FORMART, customerLineId, delimiter), customerTokenizer);
-		tokenizers.put(String.format(FORMART, salesLineId, delimiter), salesTokenizer);
+		tokenizers.put(String.format(FORMART, configProperties.getSalesmanLineId(), configProperties.getDelimiter()),
+				salesManTokenizer);
+		tokenizers.put(String.format(FORMART, configProperties.getCustomerLineId(), configProperties.getDelimiter()),
+				customerTokenizer);
+		tokenizers.put(String.format(FORMART, configProperties.getSaleLineId(), configProperties.getDelimiter()),
+				salesTokenizer);
 
 		compositeLineMapper.setTokenizers(tokenizers);
 
 		Map<String, FieldSetMapper> fieldSetMappers = new HashMap<>(3);
-		fieldSetMappers.put(String.format(FORMART, salesManLineId, delimiter), salesManMapper);
-		fieldSetMappers.put(String.format(FORMART, customerLineId, delimiter), customerMapper);
-		fieldSetMappers.put(String.format(FORMART, salesLineId, delimiter), salesMapper);
+		fieldSetMappers.put(
+				String.format(FORMART, configProperties.getSalesmanLineId(), configProperties.getDelimiter()),
+				salesManMapper);
+		fieldSetMappers.put(
+				String.format(FORMART, configProperties.getCustomerLineId(), configProperties.getDelimiter()),
+				customerMapper);
+		fieldSetMappers.put(String.format(FORMART, configProperties.getSaleLineId(), configProperties.getDelimiter()),
+				salesMapper);
 		compositeLineMapper.setFieldSetMappers(fieldSetMappers);
 
 		return compositeLineMapper;
@@ -114,19 +112,18 @@ public class BatchConfiguration {
 	<T> Processor<T> processor() {
 		return new Processor<>();
 	}
-	
+
 	@Bean
-	public Job customJob(JobCompletionNotificationListener listener, Step readAndSaveOnMongoStep, Step analyseAndWriteStep) {
-		return jobBuilderFactory.get("customJob")
-				.listener(listener)
-				.flow(readAndSaveOnMongoStep)
+	public Job customJob(JobCompletionNotificationListener listener, Step readAndSaveOnMongoStep,
+			Step analyseAndWriteStep) {
+		return jobBuilderFactory.get("customJob").listener(listener).flow(readAndSaveOnMongoStep)
 				.next(analyseAndWriteStep).end().build();
 	}
 
 	@Bean
 	public Step readAndSaveOnMongoStep() {
-		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(10).reader(multiResourceItemReader())
-				.processor(processor()).writer(lineMongoWriter).build();
+		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(10)
+				.reader(multiResourceItemReader()).processor(processor()).writer(lineMongoWriter).build();
 	}
 
 	@Bean

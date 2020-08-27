@@ -9,10 +9,10 @@ import org.springframework.stereotype.Component;
 
 import com.lbr.batchprocessing.model.BiggestSale;
 import com.lbr.batchprocessing.model.Summarize;
-import com.lbr.batchprocessing.model.WorstSeller;
+import com.lbr.batchprocessing.model.WorstSalesman;
 import com.lbr.batchprocessing.service.CustomerService;
-import com.lbr.batchprocessing.service.SalesManService;
-import com.lbr.batchprocessing.service.SalesService;
+import com.lbr.batchprocessing.service.SalesmanService;
+import com.lbr.batchprocessing.service.SaleService;
 
 @Component
 public class SummarizeReader implements ItemReader<Summarize> {
@@ -20,9 +20,9 @@ public class SummarizeReader implements ItemReader<Summarize> {
 	@Autowired
 	private CustomerService customerService;
 	@Autowired
-	private SalesService salesService;
+	private SaleService salesService;
 	@Autowired
-	private SalesManService salesManService;
+	private SalesmanService salesManService;
 
 	@Override
 	public Summarize read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
@@ -35,7 +35,7 @@ public class SummarizeReader implements ItemReader<Summarize> {
 		Long customersQuantity = customerService.countCustomerDistinctByCnpj();
 		Long sellersQuantity = salesManService.countSalesManDistinctByCnpj();
 		BiggestSale biggestSale = salesService.findBiggestSale();
-		WorstSeller worstSeller = salesService.findWorstSeller();
+		WorstSalesman worstSeller = salesService.findWorstSeller();
 		Summarize summarize = new Summarize(customersQuantity, sellersQuantity, biggestSale, worstSeller);
 		return summarize;
 	}

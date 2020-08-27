@@ -4,20 +4,18 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "salesmans")
-public class SalesMan {
+public class Salesman {
 	@Id
 	private String _id;
-	private String id;
 	private Long cpf;
 	private String name;
 	private Double salary;
 
-	public SalesMan() {
+	public Salesman() {
 	}
-	
-	public SalesMan(String id, Long cpf, String name, Double salary) {
+
+	public Salesman(Long cpf, String name, Double salary) {
 		super();
-		this.id = id;
 		this.cpf = cpf;
 		this.name = name;
 		this.salary = salary;
@@ -47,16 +45,9 @@ public class SalesMan {
 		this.salary = salary;
 	}
 
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
-	}
-
 	@Override
 	public String toString() {
-		return "Vendendor [id=" + id + ", cpf=" + cpf + ", name=" + name + ", salary=" + salary + "]";
+		return "Salesman [_id=" + _id + ", cpf=" + cpf + ", name=" + name + ", salary=" + salary + "]";
 	}
+
 }

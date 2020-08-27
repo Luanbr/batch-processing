@@ -2,22 +2,19 @@ io:
   input:
     file: file://${user.home}/data/in/*.dat
     delimiter: ç
-    salesMan:
-      lineId: "001" 
-    customer:
-      lineId: "002"
-    sales:
-      lineId: "003"
+    salesmanLineId: "001" 
+    customerLineId: "002"
+    saleLineId: "003"
     
   output:
     dir: ${user.home}/data/out/
-    type: .done.dat
+    extension: .done.dat
     delimiter: ;
     header:
       customersQuantity: QUANTIDADE_CLIENTES
       sellersQuantity: QUANTIDADE_VENDEDORES
       biggestSale: ID_VENDA_MAIOR_VALOR
       worstSeller: PIOR_VENDEDOR
-
+      
 batch:
-  schedulerInMilliseconds: 300000
+  schedulerInMilliseconds: 60000

@@ -6,23 +6,21 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Document(collection = "sales")
-public class Sales {
+public class Sale {
 	@Id
 	private String _id;
-	private String id;
 	private Long saleId;
 	private List<Item> items;
-	private String salesManName;
+	private String salesmanName;
 
-	public Sales() {
+	public Sale() {
 	}
 
-	public Sales(String id, Long saleId, List<Item> items, String salesManName) {
+	public Sale(Long saleId, List<Item> items, String salesmanName) {
 		super();
-		this.id = id;
 		this.saleId = saleId;
 		this.items = items;
-		this.salesManName = salesManName;
+		this.salesmanName = salesmanName;
 	}
 
 	public Long getSaleId() {
@@ -41,24 +39,16 @@ public class Sales {
 		this.items = items;
 	}
 
-	public String getSalesManName() {
-		return salesManName;
+	public String getSalesmanName() {
+		return salesmanName;
 	}
 
-	public void setSalesManName(String salesManName) {
-		this.salesManName = salesManName;
-	}
-
-	public String getId() {
-		return id;
-	}
-
-	public void setId(String id) {
-		this.id = id;
+	public void setSalesmanName(String salesmanName) {
+		this.salesmanName = salesmanName;
 	}
 
 	@Override
 	public String toString() {
-		return "Vendas [id=" + id + ", saleId=" + saleId + ", items=" + items + ", salesManName=" + salesManName + "]";
+		return "Sale [_id=" + _id + ", saleId=" + saleId + ", items=" + items + ", salesmanName=" + salesmanName + "]";
 	}
 }

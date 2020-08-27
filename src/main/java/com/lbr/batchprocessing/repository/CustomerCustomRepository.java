@@ -7,11 +7,11 @@ import org.springframework.stereotype.Repository;
 import com.lbr.batchprocessing.model.Customer;
 
 @Repository
-public class CustomerRepositoryCustom {
+public class CustomerCustomRepository {
 	@Autowired
 	private MongoTemplate mongoTemplate;
 	
-	public Long countCustomerDistinctByCnpj() {
+	public Long countDistinctByCnpj() {
 		return (long) mongoTemplate.query(Customer.class).distinct("cnpj").all().size();
 	}
 }

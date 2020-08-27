@@ -16,6 +16,7 @@ public class InputFileConfigProperties {
 	private String salesmanLineId;
 	private String customerLineId;
 	private String saleLineId;
+	private Integer chunk;
 
 	public Resource[] getFile() {
 		return file;
@@ -57,11 +58,19 @@ public class InputFileConfigProperties {
 		this.saleLineId = saleLineId;
 	}
 
+	public Integer getChunk() {
+		return chunk;
+	}
+
+	public void setChunk(Integer chunk) {
+		this.chunk = chunk;
+	}
+
 	@Override
 	public String toString() {
 		return "InputFileConfigProperties [file=" + Arrays.toString(file) + ", delimiter=" + delimiter
 				+ ", salesmanLineId=" + salesmanLineId + ", customerLineId=" + customerLineId + ", saleLineId="
-				+ saleLineId + "]";
+				+ saleLineId + ", chunk=" + chunk + "]";
 	}
 
 }

@@ -116,9 +116,8 @@ public class BatchConfiguration {
 
 	@Bean
 	public Step readAndSaveOnMongoStep() {
-		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(300)
-				.reader(multiResourceItemReader())
-				.writer(lineMongoWriter).build();
+		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(configProperties.getChunk())
+				.reader(multiResourceItemReader()).writer(lineMongoWriter).build();
 	}
 
 	@Bean

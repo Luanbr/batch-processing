@@ -5,7 +5,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.Before;
 import org.junit.jupiter.api.Test;
 import org.junit.runner.RunWith;
-import org.springframework.batch.core.BatchStatus;
 import org.springframework.batch.core.JobExecution;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.JobRepositoryTestUtils;
@@ -41,7 +40,7 @@ public class BatchIntegrationTest {
 
 		JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
-		assertEquals(BatchStatus.COMPLETED, jobExecution.getExitStatus().getExitCode());
+		assertEquals("COMPLETED", jobExecution.getExitStatus().getExitCode());
 		assertEquals("readFilesJob", jobExecution.getJobInstance().getJobName());
 	}
 }

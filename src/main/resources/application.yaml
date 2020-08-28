@@ -1,6 +1,5 @@
 io:
   input:
-#    file: file://${user.home}/data/in/*.dat
     file: file://${user.home}/data/in/*.dat
     delimiter: ç
     chunk: 50

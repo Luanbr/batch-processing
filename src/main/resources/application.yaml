@@ -1,8 +1,10 @@
 io:
   input:
+#    file: file://${user.home}/data/in/*.dat
     file: file://${user.home}/data/in/*.dat
     delimiter: ç
     chunk: 50
+    skipLimit: 10
     salesmanLineId: "001" 
     customerLineId: "002"
     saleLineId: "003"
@@ -18,7 +20,7 @@ io:
       worstSeller: PIOR_VENDEDOR
       
 batch:
-  schedulerInMilliseconds: 300000
+  schedulerInMilliseconds: 60000
   
 spring:
   data:
@@ -37,7 +39,7 @@ spring:
       path: /h2-console
   datasource:
     driver-class-name: org.h2.Driver
-    url: jdbc:h2:mem:batchcontroldb
+    url: jdbc:h2:mem:batchcontroldb;DB_CLOSE_ON_EXIT=FALSE
     username: user
     password: pass
     initialization-mode: always

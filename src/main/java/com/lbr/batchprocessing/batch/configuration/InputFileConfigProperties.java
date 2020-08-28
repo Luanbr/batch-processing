@@ -1,28 +1,24 @@
 package com.lbr.batchprocessing.batch.configuration;
 
-import java.util.Arrays;
-
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "io.input")
 public class InputFileConfigProperties {
-	@Value("${io.input.file}")
-	private Resource[] file;
+	private String file;
 	private String delimiter;
 	private String salesmanLineId;
 	private String customerLineId;
 	private String saleLineId;
 	private Integer chunk;
+	private Long skipLimit;
 
-	public Resource[] getFile() {
+	public String getFile() {
 		return file;
 	}
 
-	public void setFile(Resource[] file) {
+	public void setFile(String file) {
 		this.file = file;
 	}
 
@@ -66,11 +62,19 @@ public class InputFileConfigProperties {
 		this.chunk = chunk;
 	}
 
+	public Long getSkipLimit() {
+		return skipLimit;
+	}
+
+	public void setSkipLimit(Long skipLimit) {
+		this.skipLimit = skipLimit;
+	}
+
 	@Override
 	public String toString() {
-		return "InputFileConfigProperties [file=" + Arrays.toString(file) + ", delimiter=" + delimiter
-				+ ", salesmanLineId=" + salesmanLineId + ", customerLineId=" + customerLineId + ", saleLineId="
-				+ saleLineId + ", chunk=" + chunk + "]";
+		return "InputFileConfigProperties [file=" + file + ", delimiter=" + delimiter + ", salesmanLineId="
+				+ salesmanLineId + ", customerLineId=" + customerLineId + ", saleLineId=" + saleLineId + ", chunk="
+				+ chunk + ", skipLimit=" + skipLimit + "]";
 	}
 
 }

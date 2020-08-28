@@ -47,7 +47,7 @@ public class SaleCustomRepository {
 	 * 
 	 * @return
 	 */
-	public WorstSalesman findWorstSeller() {
+	public WorstSalesman findWorstSalesman() {
 		Aggregation aggregation = Aggregation.newAggregation(Aggregation.unwind("items"),
 				Aggregation.group("salesmanName")
 						.sum(ArithmeticOperators.Multiply.valueOf("items.price").multiplyBy("items.quantity"))

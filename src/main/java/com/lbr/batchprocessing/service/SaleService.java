@@ -28,7 +28,7 @@ public class SaleService {
 	}
 	
 	public WorstSalesman findWorstSeller() {
-		return customRepository.findWorstSeller();
+		return customRepository.findWorstSalesman();
 	}
 
 	public void deleteAll() {

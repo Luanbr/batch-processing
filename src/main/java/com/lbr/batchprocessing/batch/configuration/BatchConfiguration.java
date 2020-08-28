@@ -1,5 +1,6 @@
 package com.lbr.batchprocessing.batch.configuration;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -15,15 +16,16 @@ import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.mapping.PatternMatchingCompositeLineMapper;
 import org.springframework.batch.item.file.transform.LineTokenizer;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
+import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.lbr.batchprocessing.batch.JobCompletionNotificationListener;
 import com.lbr.batchprocessing.batch.mappers.CustomerMapper;
 import com.lbr.batchprocessing.batch.mappers.SaleMapper;
 import com.lbr.batchprocessing.batch.mappers.SalesmanMapper;
+import com.lbr.batchprocessing.batch.policy.LineSkipPolicy;
 import com.lbr.batchprocessing.batch.readers.SummarizeReader;
 import com.lbr.batchprocessing.batch.tokenizer.CustomerTokenizer;
 import com.lbr.batchprocessing.batch.tokenizer.SaleTokenizer;
@@ -37,8 +39,6 @@ import com.lbr.batchprocessing.model.Summarize;
 public class BatchConfiguration {
 
 	private final static String FORMART = "%s%s*";
-	@Value("${io.input.file}")
-	private Resource[] inputResources;
 	@Autowired
 	private InputFileConfigProperties configProperties;
 	@Autowired
@@ -63,6 +63,8 @@ public class BatchConfiguration {
 	private CustomerTokenizer customerTokenizer;
 	@Autowired
 	private SaleTokenizer salesTokenizer;
+	@Autowired
+	private LineSkipPolicy lineSkipPolicy;
 
 	@Bean
 	public PatternMatchingCompositeLineMapper patternMatchingCompositeLineMapper() {
@@ -100,9 +102,11 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public ItemReader<Object> multiResourceItemReader() {
+	public ItemReader<Object> multiResourceItemReader() throws IOException {
+		final String inputDirectory = configProperties.getFile();
+        final Resource[] resources = new PathMatchingResourcePatternResolver().getResources(inputDirectory);
 		MultiResourceItemReader<Object> multiResourceItemReader = new MultiResourceItemReader<>();
-		multiResourceItemReader.setResources(inputResources);
+		multiResourceItemReader.setResources(resources);
 		multiResourceItemReader.setDelegate(reader());
 		return multiResourceItemReader;
 	}
@@ -115,14 +119,23 @@ public class BatchConfiguration {
 	}
 
 	@Bean
-	public Step readAndSaveOnMongoStep() {
-		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(configProperties.getChunk())
-				.reader(multiResourceItemReader()).writer(lineMongoWriter).build();
+	public Step readAndSaveOnMongoStep() throws IOException {
+		return stepBuilderFactory
+				.get("readAndSaveOnMongoStep")
+				.<Object, Object>chunk(configProperties.getChunk())
+				.reader(multiResourceItemReader())
+				.faultTolerant()
+				.skipPolicy(lineSkipPolicy)
+				.writer(lineMongoWriter)
+				.build();
 	}
 
 	@Bean
 	public Step analyseAndWriteStep() {
-		return stepBuilderFactory.get("analyseAndWriteStep").<Object, Summarize>chunk(1).reader(summarizeReader)
+		return stepBuilderFactory
+				.get("analyseAndWriteStep")
+				.<Object, Summarize>chunk(1)
+				.reader(summarizeReader)
 				.writer(summarizeWriter).build();
 	}
 

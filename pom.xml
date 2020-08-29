@@ -11,9 +11,9 @@
 	</parent>
 	<groupId>com.lbr</groupId>
 	<artifactId>batch-processing</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>1.0.0</version>
 	<name>batch-processing</name>
-	<description>Demo project for Spring Boot</description>
+	<description>Project for batch processing with Spring Boot</description>
 
 	<properties>
 		<java.version>11</java.version>

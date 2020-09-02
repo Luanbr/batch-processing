@@ -10,18 +10,12 @@ import org.springframework.stereotype.Component;
 
 @Component
 public class JobCompletionNotificationListener extends JobExecutionListenerSupport {
+    private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
 
-  private static final Logger log = LoggerFactory.getLogger(JobCompletionNotificationListener.class);
-
-  @Autowired
-  public JobCompletionNotificationListener() {
-    
-  }
-
-  @Override
-  public void afterJob(JobExecution jobExecution) {
-    if(jobExecution.getStatus() == BatchStatus.COMPLETED) {
-      log.info("Job execution finished!");
+    @Override
+    public void afterJob(JobExecution jobExecution) {
+        if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
+          log.info("Job execution finished!");
+        }
     }
-  }
 }

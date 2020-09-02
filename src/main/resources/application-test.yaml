@@ -1,6 +1,6 @@
 io:
   input:
-    file: file://${user.home}/data/in/*.dat
+    file: file://${project.basedir}/src/test/resources/in/*.dat
     delimiter: ç
     chunk: 50
     skipLimit: 10
@@ -9,7 +9,7 @@ io:
     saleLineId: "003"
     
   output:
-    dir: ${user.home}/data/out/
+    dir: src/test/resources/out/
     extension: .done.dat
     delimiter: ;
     header:
@@ -18,9 +18,6 @@ io:
       biggestSale: ID_VENDA_MAIOR_VALOR
       worstSeller: PIOR_VENDEDOR
       
-batch:
-  schedulerInMilliseconds: 60000
-  
 spring:
   data:
     mongodb:
@@ -35,7 +32,6 @@ spring:
   h2:
     console:
       enabled: true
-      path: /h2-console
   datasource:
     driver-class-name: org.h2.Driver
     url: jdbc:h2:mem:batchcontroldb;DB_CLOSE_ON_EXIT=FALSE

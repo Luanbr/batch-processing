@@ -11,14 +11,17 @@ import org.springframework.batch.core.repository.JobInstanceAlreadyCompleteExcep
 import org.springframework.batch.core.repository.JobRestartException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 import org.springframework.scheduling.annotation.Scheduled;
 
 import com.lbr.batchprocessing.utils.DateUtils;
 
 @Configuration
+@Profile("!test")
 public class RunJobScheduler {
 	@Autowired
 	private JobLauncher jobLauncher;
+
 	@Autowired
 	private Job job;
 

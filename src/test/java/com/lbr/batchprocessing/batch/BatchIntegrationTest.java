@@ -20,7 +20,6 @@ import com.lbr.batchprocessing.BatchProcessingApplication;
 @SpringBatchTest
 @SpringBootTest
 @ActiveProfiles("test")
-@RunWith(SpringRunner.class)
 @ContextConfiguration(classes = { BatchProcessingApplication.class })
 public class BatchIntegrationTest {
 
@@ -31,13 +30,12 @@ public class BatchIntegrationTest {
 	private JobRepositoryTestUtils jobRepositoryTestUtils;
 
 	@Before
-	void setup() {
+	public void setup() {
 		jobRepositoryTestUtils.removeJobExecutions();
 	}
 
 	@Test
 	public void testJob() throws Exception {
-
 		JobExecution jobExecution = jobLauncherTestUtils.launchJob();
 
 		assertEquals("COMPLETED", jobExecution.getExitStatus().getExitCode());

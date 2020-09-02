@@ -1,6 +1,7 @@
 package com.lbr.batchprocessing.batch.mappers;
 
 import java.util.Arrays;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
@@ -16,7 +17,7 @@ public class SaleMapper implements FieldSetMapper<Sale> {
 
 	@Override
 	public Sale mapFieldSet(FieldSet fieldSet) throws BindException {
-		if (fieldSet == null) {
+		if (Objects.isNull(fieldSet)) {
 			return null;
 		}
 		Sale vendas = new Sale();

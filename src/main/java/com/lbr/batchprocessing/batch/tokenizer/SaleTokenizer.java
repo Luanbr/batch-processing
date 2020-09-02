@@ -9,6 +9,6 @@ public class SaleTokenizer extends DelimitedLineTokenizer {
 
 	public SaleTokenizer(@Value("${io.input.delimiter}") final String delimiter) {
 		this.setDelimiter(delimiter);
-		this.setNames(new String[] { "id", "salesId", "items", "salesManName" });
+		this.setNames("id", "salesId", "items", "salesManName");
 	}
 }

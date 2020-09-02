@@ -12,7 +12,7 @@ import com.lbr.batchprocessing.repository.SaleRepository;
 import com.lbr.batchprocessing.repository.SaleCustomRepository;
 
 @Service
-public class SaleService {
+public class SaleService implements IService {
 
 	@Autowired
 	private SaleRepository repository;
@@ -33,5 +33,10 @@ public class SaleService {
 
 	public void deleteAll() {
 		repository.deleteAll();
+	}
+
+	@Override
+	public void save(final Object item) {
+		repository.save((Sale) item);
 	}
 }

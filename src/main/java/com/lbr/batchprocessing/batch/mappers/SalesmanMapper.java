@@ -7,12 +7,14 @@ import org.springframework.validation.BindException;
 
 import com.lbr.batchprocessing.model.Salesman;
 
+import java.util.Objects;
+
 @Component
 public class SalesmanMapper implements FieldSetMapper<Salesman> {
 
 	@Override
 	public Salesman mapFieldSet(FieldSet fieldSet) throws BindException {
-		if (fieldSet == null) {
+		if (Objects.isNull(fieldSet)) {
 			return null;
 		}
 		Salesman salesMan = new Salesman();

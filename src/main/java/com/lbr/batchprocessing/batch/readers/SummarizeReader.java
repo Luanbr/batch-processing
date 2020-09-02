@@ -25,7 +25,7 @@ public class SummarizeReader implements ItemReader<Summarize> {
 	private SalesmanService salesManService;
 
 	@Override
-	public Summarize read() throws Exception, UnexpectedInputException, ParseException, NonTransientResourceException {
+	public Summarize read() {
 		Summarize summarize = create();
 		clean();
 		return !summarize.isEmpty() ? summarize : null;
@@ -36,8 +36,7 @@ public class SummarizeReader implements ItemReader<Summarize> {
 		Long sellersQuantity = salesManService.countSalesManDistinctByCnpj();
 		BiggestSale biggestSale = salesService.findBiggestSale();
 		WorstSalesman worstSeller = salesService.findWorstSeller();
-		Summarize summarize = new Summarize(customersQuantity, sellersQuantity, biggestSale, worstSeller);
-		return summarize;
+		return new Summarize(customersQuantity, sellersQuantity, biggestSale, worstSeller);
 	}
 
 	public void clean() {

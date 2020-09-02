@@ -11,6 +11,7 @@ import org.springframework.batch.core.configuration.annotation.JobBuilderFactory
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
+import org.springframework.batch.item.file.FlatFileParseException;
 import org.springframework.batch.item.file.MultiResourceItemReader;
 import org.springframework.batch.item.file.mapping.FieldSetMapper;
 import org.springframework.batch.item.file.mapping.PatternMatchingCompositeLineMapper;
@@ -25,7 +26,6 @@ import com.lbr.batchprocessing.batch.JobCompletionNotificationListener;
 import com.lbr.batchprocessing.batch.mappers.CustomerMapper;
 import com.lbr.batchprocessing.batch.mappers.SaleMapper;
 import com.lbr.batchprocessing.batch.mappers.SalesmanMapper;
-import com.lbr.batchprocessing.batch.policy.LineSkipPolicy;
 import com.lbr.batchprocessing.batch.readers.SummarizeReader;
 import com.lbr.batchprocessing.batch.tokenizer.CustomerTokenizer;
 import com.lbr.batchprocessing.batch.tokenizer.SaleTokenizer;
@@ -63,8 +63,6 @@ public class BatchConfiguration {
 	private CustomerTokenizer customerTokenizer;
 	@Autowired
 	private SaleTokenizer salesTokenizer;
-	@Autowired
-	private LineSkipPolicy lineSkipPolicy;
 
 	@Bean
 	public PatternMatchingCompositeLineMapper patternMatchingCompositeLineMapper() {
@@ -125,7 +123,8 @@ public class BatchConfiguration {
 				.<Object, Object>chunk(configProperties.getChunk())
 				.reader(multiResourceItemReader())
 				.faultTolerant()
-				.skipPolicy(lineSkipPolicy)
+				.skip(FlatFileParseException.class)
+				.skipLimit(configProperties.getSkipLimit())
 				.writer(lineMongoWriter)
 				.build();
 	}

@@ -12,7 +12,7 @@ public class InputFileConfigProperties {
 	private String customerLineId;
 	private String saleLineId;
 	private Integer chunk;
-	private Long skipLimit;
+	private Integer skipLimit;
 
 	public String getFile() {
 		return file;
@@ -62,11 +62,11 @@ public class InputFileConfigProperties {
 		this.chunk = chunk;
 	}
 
-	public Long getSkipLimit() {
+	public Integer getSkipLimit() {
 		return skipLimit;
 	}
 
-	public void setSkipLimit(Long skipLimit) {
+	public void setSkipLimit(Integer skipLimit) {
 		this.skipLimit = skipLimit;
 	}
 

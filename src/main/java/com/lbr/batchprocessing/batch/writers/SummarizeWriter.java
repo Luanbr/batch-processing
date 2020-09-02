@@ -3,7 +3,9 @@ package com.lbr.batchprocessing.batch.writers;
 import java.io.IOException;
 import java.io.Writer;
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
@@ -22,29 +24,33 @@ public class SummarizeWriter implements ItemWriter<Summarize> {
 
 	@Autowired
 	private Summarize summarizeHeader;
+
 	@Autowired
 	private OutputFileConfigProperties configProperties;
 
 	@Override
 	public void write(List<? extends Summarize> items) throws Exception {
-		FlatFileItemWriter<Summarize> writer = new FlatFileItemWriter<>();
-		writer.setHeaderCallback(new FlatFileHeaderCallback() {
-			@Override
-			public void writeHeader(Writer writer) throws IOException {
-				writer.write(summarizeHeader.header());
-			}
+		FlatFileItemWriter<Summarize> fileItemWriter = new FlatFileItemWriter<>();
+		fileItemWriter.setHeaderCallback(writer -> writer.write(summarizeHeader.header()));
+
+		final String today = DateUtils.localDateTimeToyyyyMMddHHmmss(LocalDateTime.now());
+		final String outputDir = configProperties.getDir();
+		final String extensionFile = configProperties.getExtension();
+
+		fileItemWriter.setResource(new FileSystemResource(outputDir + today + extensionFile));
+		fileItemWriter.setAppendAllowed(false);
+
+		fileItemWriter.setLineAggregator(summarize -> {
+			final List<String> line = Arrays.asList(Objects.toString(summarize.getCustomersQuantity(), ""),
+				Objects.toString(summarize.getSellersQuantity(), ""),
+				Objects.toString(summarize.getBiggestSale().getSaleId(), ""),
+				Objects.toString(summarize.getWorstSeller().getSalesmanName(), "")
+			);
+			return String.join(configProperties.getDelimiter(), line);
 		});
 
-		writer.setResource(new FileSystemResource(configProperties.getDir()
-				+ DateUtils.localDateTimeToyyyyMMddHHmmss(LocalDateTime.now()) + configProperties.getExtension()));
-		writer.setAppendAllowed(false);
-		writer.setLineAggregator((summarize) -> {
-			return summarize.getCustomersQuantity() + configProperties.getDelimiter() + summarize.getSellersQuantity()
-					+ configProperties.getDelimiter() + summarize.getBiggestSale().getSaleId()
-					+ configProperties.getDelimiter() + summarize.getWorstSeller().getSalesmanName();
-		});
-		writer.open(new ExecutionContext());
-		writer.write(items);
-		writer.close();
+		fileItemWriter.open(new ExecutionContext());
+		fileItemWriter.write(items);
+		fileItemWriter.close();
 	}
 }

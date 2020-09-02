@@ -10,10 +10,11 @@ import com.lbr.batchprocessing.repository.SalesmanRepository;
 import com.lbr.batchprocessing.repository.SalesmanCustomRepository;
 
 @Service
-public class SalesmanService {
+public class SalesmanService implements IService {
 
 	@Autowired
 	private SalesmanRepository repository;
+
 	@Autowired
 	private SalesmanCustomRepository customRepository;
 	
@@ -27,5 +28,10 @@ public class SalesmanService {
 
 	public void deleteAll() {
 		repository.deleteAll();
+	}
+
+	@Override
+	public void save(final Object item) {
+		repository.save((Salesman) item);
 	}
 }

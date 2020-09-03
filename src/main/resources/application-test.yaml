@@ -12,11 +12,6 @@ io:
     dir: src/test/resources/out/
     extension: .done.dat
     delimiter: ;
-    header:
-      customersQuantity: QUANTIDADE_CLIENTES
-      sellersQuantity: QUANTIDADE_VENDEDORES
-      biggestSale: ID_VENDA_MAIOR_VALOR
-      worstSeller: PIOR_VENDEDOR
       
 spring:
   data:

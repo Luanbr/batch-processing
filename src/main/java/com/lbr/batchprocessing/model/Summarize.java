@@ -1,9 +1,6 @@
 package com.lbr.batchprocessing.model;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import com.lbr.batchprocessing.batch.configuration.OutputFileConfigProperties;
 
 /***
  * 
@@ -17,9 +14,6 @@ public class Summarize {
 	private final Long sellersQuantity;
 	private final BiggestSale biggestSale;
 	private final WorstSalesman worstSeller;
-
-	@Autowired
-	private OutputFileConfigProperties configProperties;
 
 	public Summarize() {
 		this.customersQuantity = 0L;
@@ -56,11 +50,4 @@ public class Summarize {
 		return (this.customersQuantity == _0 && this.sellersQuantity == _0 && this.biggestSale == null
 				&& this.worstSeller == null);
 	}
-
-	public String header() {
-		return String.join(configProperties.getDelimiter(), configProperties.getHeader().getCustomersQuantity(),
-				configProperties.getHeader().getSellersQuantity(), configProperties.getHeader().getBiggestSale(),
-				configProperties.getHeader().getWorstSeller());
-	}
-
 }

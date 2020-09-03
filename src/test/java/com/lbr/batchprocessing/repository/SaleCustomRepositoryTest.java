@@ -34,7 +34,8 @@ public class SaleCustomRepositoryTest {
 	private SaleCustomRepository repository;
 
 	@BeforeEach
-	void setup() {
+	public void setup() {
+		mongoTemplate.dropCollection(Sale.class);
 		List<Sale> sales = new ArrayList<>();
 		List<Item> itemsSaleOne = new ArrayList<>();
 		List<Item> itemsSaleTwo = new ArrayList<>();
@@ -53,7 +54,7 @@ public class SaleCustomRepositoryTest {
 	}
 
 	@AfterEach
-	void clean() {
+	public void clean() {
 		mongoTemplate.dropCollection(Sale.class);
 	}
 

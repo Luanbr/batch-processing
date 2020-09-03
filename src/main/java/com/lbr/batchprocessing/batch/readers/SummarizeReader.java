@@ -1,9 +1,6 @@
 package com.lbr.batchprocessing.batch.readers;
 
 import org.springframework.batch.item.ItemReader;
-import org.springframework.batch.item.NonTransientResourceException;
-import org.springframework.batch.item.ParseException;
-import org.springframework.batch.item.UnexpectedInputException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -11,8 +8,8 @@ import com.lbr.batchprocessing.model.BiggestSale;
 import com.lbr.batchprocessing.model.Summarize;
 import com.lbr.batchprocessing.model.WorstSalesman;
 import com.lbr.batchprocessing.service.CustomerService;
-import com.lbr.batchprocessing.service.SalesmanService;
 import com.lbr.batchprocessing.service.SaleService;
+import com.lbr.batchprocessing.service.SalesmanService;
 
 @Component
 public class SummarizeReader implements ItemReader<Summarize> {

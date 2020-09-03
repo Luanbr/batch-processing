@@ -1,7 +1,5 @@
 package com.lbr.batchprocessing.batch.writers;
 
-import java.io.IOException;
-import java.io.Writer;
 import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.List;
@@ -9,7 +7,6 @@ import java.util.Objects;
 
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
-import org.springframework.batch.item.file.FlatFileHeaderCallback;
 import org.springframework.batch.item.file.FlatFileItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
@@ -23,15 +20,11 @@ import com.lbr.batchprocessing.utils.DateUtils;
 public class SummarizeWriter implements ItemWriter<Summarize> {
 
 	@Autowired
-	private Summarize summarizeHeader;
-
-	@Autowired
 	private OutputFileConfigProperties configProperties;
 
 	@Override
 	public void write(List<? extends Summarize> items) throws Exception {
 		FlatFileItemWriter<Summarize> fileItemWriter = new FlatFileItemWriter<>();
-		fileItemWriter.setHeaderCallback(writer -> writer.write(summarizeHeader.header()));
 
 		final String today = DateUtils.localDateTimeToyyyyMMddHHmmss(LocalDateTime.now());
 		final String outputDir = configProperties.getDir();

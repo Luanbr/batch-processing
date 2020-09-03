@@ -9,7 +9,6 @@ public class OutputFileConfigProperties {
 	private String dir;
 	private String extension;
 	private String delimiter;
-	private OutputHeaderConfig header;
 
 	public String getDir() {
 		return dir;
@@ -35,17 +34,8 @@ public class OutputFileConfigProperties {
 		this.delimiter = delimiter;
 	}
 
-	public OutputHeaderConfig getHeader() {
-		return header;
-	}
-
-	public void setHeader(OutputHeaderConfig header) {
-		this.header = header;
-	}
-
 	@Override
 	public String toString() {
-		return "OutputFileConfigProperties [dir=" + dir + ", extension=" + extension + ", delimiter=" + delimiter
-				+ ", header=" + header + "]";
+		return "OutputFileConfigProperties [dir=" + dir + ", extension=" + extension + ", delimiter=" + delimiter + "]";
 	}
 }

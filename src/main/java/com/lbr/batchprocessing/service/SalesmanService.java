@@ -13,25 +13,25 @@ import com.lbr.batchprocessing.repository.SalesmanCustomRepository;
 public class SalesmanService implements IService {
 
 	@Autowired
-	private SalesmanRepository repository;
+	private SalesmanRepository salesmanRepository;
 
 	@Autowired
-	private SalesmanCustomRepository customRepository;
+	private SalesmanCustomRepository salesmanCustomRepository;
 	
 	public void saveAll(List<? extends Salesman> sellers) {
-		repository.saveAll(sellers);
+		salesmanRepository.saveAll(sellers);
 	}
 	
-	public Long countSalesManDistinctByCnpj() {
-		return customRepository.countDistinctByCpf();
+	public Long countDistinctByCnpj() {
+		return salesmanCustomRepository.countDistinctByCpf();
 	}
 
 	public void deleteAll() {
-		repository.deleteAll();
+		salesmanRepository.deleteAll();
 	}
 
 	@Override
 	public void save(final Object item) {
-		repository.save((Salesman) item);
+		salesmanRepository.save((Salesman) item);
 	}
 }

@@ -1,4 +1,4 @@
-package com.lbr.batchprocessing.batch.configuration;
+package com.lbr.batchprocessing.batch.mappers;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -10,12 +10,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.lbr.batchprocessing.batch.mappers.CustomerMapper;
-import com.lbr.batchprocessing.batch.mappers.SaleMapper;
-import com.lbr.batchprocessing.batch.mappers.SalesmanMapper;
-import com.lbr.batchprocessing.batch.tokenizer.CustomerTokenizer;
-import com.lbr.batchprocessing.batch.tokenizer.SaleTokenizer;
-import com.lbr.batchprocessing.batch.tokenizer.SalesmanTokenizer;
+import com.lbr.batchprocessing.batch.configurations.InputFileConfigProperties;
+import com.lbr.batchprocessing.batch.tokenizers.CustomerTokenizer;
+import com.lbr.batchprocessing.batch.tokenizers.SaleTokenizer;
+import com.lbr.batchprocessing.batch.tokenizers.SalesmanTokenizer;
 
 @Configuration
 public class PatternCompositeLineMapper {

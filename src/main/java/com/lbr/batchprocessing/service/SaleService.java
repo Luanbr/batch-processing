@@ -15,28 +15,28 @@ import com.lbr.batchprocessing.repository.SaleCustomRepository;
 public class SaleService implements IService {
 
 	@Autowired
-	private SaleRepository repository;
+	private SaleRepository saleRepository;
 	@Autowired
-	private SaleCustomRepository customRepository;
+	private SaleCustomRepository saleCustomRepository;
 
 	public void saveAll(List<? extends Sale> sales) {
-		repository.saveAll(sales);
+		saleRepository.saveAll(sales);
 	}
 	
 	public BiggestSale findBiggestSale() {
-		return customRepository.findBiggestSale();
+		return saleCustomRepository.findBiggestSale();
 	}
 	
 	public WorstSalesman findWorstSeller() {
-		return customRepository.findWorstSalesman();
+		return saleCustomRepository.findWorstSalesman();
 	}
 
 	public void deleteAll() {
-		repository.deleteAll();
+		saleRepository.deleteAll();
 	}
 
 	@Override
 	public void save(final Object item) {
-		repository.save((Sale) item);
+		saleRepository.save((Sale) item);
 	}
 }

@@ -8,22 +8,19 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.TestPropertySource;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.lbr.batchprocessing.model.BiggestSale;
 import com.lbr.batchprocessing.model.Item;
 import com.lbr.batchprocessing.model.Sale;
 import com.lbr.batchprocessing.model.WorstSalesman;
 
-@TestPropertySource(properties = { "io.input.file=file://${user.home}/*.dat" })
+//@TestPropertySource(properties = { "io.input.file=file://${user.home}/*.dat" })
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 public class SaleCustomRepositoryTest {
 
@@ -31,11 +28,11 @@ public class SaleCustomRepositoryTest {
 	private MongoTemplate mongoTemplate;
 
 	@Autowired
-	private SaleCustomRepository repository;
+	private SaleCustomRepository saleCustomRepository;
 
 	@BeforeEach
 	public void setup() {
-		mongoTemplate.dropCollection(Sale.class);
+		cleanCollection();
 		List<Sale> sales = new ArrayList<>();
 		List<Item> itemsSaleOne = new ArrayList<>();
 		List<Item> itemsSaleTwo = new ArrayList<>();
@@ -53,16 +50,20 @@ public class SaleCustomRepositoryTest {
 		});
 	}
 
+	private void cleanCollection() {
+		mongoTemplate.dropCollection(Sale.class);
+	}
+
 	@AfterEach
 	public void clean() {
-		mongoTemplate.dropCollection(Sale.class);
+		cleanCollection();
 	}
 
 	@Test
 	public void whenFindBiggestSale_thenReturnCorrect() {
 		Long expectedSaleId = 12222225L;
 		Double expectedTotal = 55962.00;
-		BiggestSale biggestSale = repository.findBiggestSale();
+		BiggestSale biggestSale = saleCustomRepository.findBiggestSale();
 
 		assertEquals(expectedSaleId, biggestSale.getSaleId());
 		assertEquals(expectedTotal, biggestSale.getTotal());
@@ -72,7 +73,7 @@ public class SaleCustomRepositoryTest {
 	public void whenFindWorstSeller_thenReturnCorrect() {
 		String expectedSalesmanName = "Carlos";
 		Double expectedTotalSold = 20675.00;
-		WorstSalesman worstSalesman = repository.findWorstSalesman();
+		WorstSalesman worstSalesman = saleCustomRepository.findWorstSalesman();
 
 		assertEquals(expectedSalesmanName, worstSalesman.getSalesmanName());
 		assertEquals(expectedTotalSold, worstSalesman.getTotal());

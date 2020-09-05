@@ -1,4 +1,4 @@
-package com.lbr.batchprocessing.batch.tokenizer;
+package com.lbr.batchprocessing.batch.tokenizers;
 
 import org.springframework.batch.item.file.transform.DelimitedLineTokenizer;
 import org.springframework.beans.factory.annotation.Value;

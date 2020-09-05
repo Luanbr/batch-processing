@@ -11,7 +11,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
-import com.lbr.batchprocessing.batch.configuration.InputFileConfigProperties;
+import com.lbr.batchprocessing.batch.configurations.InputFileConfigProperties;
 
 @Configuration
 public class MultiResourcesReader {

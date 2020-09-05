@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.stereotype.Component;
 
-import com.lbr.batchprocessing.batch.configuration.OutputFileConfigProperties;
+import com.lbr.batchprocessing.batch.configurations.OutputFileConfigProperties;
 import com.lbr.batchprocessing.model.Summarize;
 import com.lbr.batchprocessing.utils.DateUtils;
 

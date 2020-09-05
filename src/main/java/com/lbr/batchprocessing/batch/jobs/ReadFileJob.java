@@ -1,8 +1,7 @@
-package com.lbr.batchprocessing.batch.configuration;
+package com.lbr.batchprocessing.batch.jobs;
 
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.Step;
-import org.springframework.batch.core.configuration.annotation.EnableBatchProcessing;
 import org.springframework.batch.core.configuration.annotation.JobBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -11,8 +10,7 @@ import org.springframework.context.annotation.Configuration;
 import com.lbr.batchprocessing.batch.JobCompletionNotificationListener;
 
 @Configuration
-@EnableBatchProcessing
-public class BatchConfiguration {
+public class ReadFileJob {
 
 	@Autowired
 	private JobBuilderFactory jobBuilderFactory;

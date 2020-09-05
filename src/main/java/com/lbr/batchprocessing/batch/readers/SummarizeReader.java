@@ -1,45 +1,26 @@
 package com.lbr.batchprocessing.batch.readers;
 
+import java.util.Objects;
+
 import org.springframework.batch.item.ItemReader;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.lbr.batchprocessing.model.BiggestSale;
 import com.lbr.batchprocessing.model.Summarize;
-import com.lbr.batchprocessing.model.WorstSalesman;
-import com.lbr.batchprocessing.service.CustomerService;
-import com.lbr.batchprocessing.service.SaleService;
-import com.lbr.batchprocessing.service.SalesmanService;
+import com.lbr.batchprocessing.service.SummarizeService;
 
 @Component
 public class SummarizeReader implements ItemReader<Summarize> {
 
 	@Autowired
-	private CustomerService customerService;
-	@Autowired
-	private SaleService salesService;
-	@Autowired
-	private SalesmanService salesManService;
+	private SummarizeService summarizeService;
 
 	@Override
 	public Summarize read() {
-		Summarize summarize = create();
-		clean();
-		return !summarize.isEmpty() ? summarize : null;
+		Summarize summarize = summarizeService.create();
+		if (Objects.isNull(summarize))
+			return summarize;
+		summarizeService.clean();
+		return summarize;
 	}
-
-	public Summarize create() {
-		Long customersQuantity = customerService.countCustomerDistinctByCnpj();
-		Long sellersQuantity = salesManService.countSalesManDistinctByCnpj();
-		BiggestSale biggestSale = salesService.findBiggestSale();
-		WorstSalesman worstSeller = salesService.findWorstSeller();
-		return new Summarize(customersQuantity, sellersQuantity, biggestSale, worstSeller);
-	}
-
-	public void clean() {
-		customerService.deleteAll();
-		salesManService.deleteAll();
-		salesService.deleteAll();
-	}
-
 }

@@ -1,4 +1,4 @@
-package com.lbr.batchprocessing.batch.configuration;
+package com.lbr.batchprocessing.batch.configurations;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;

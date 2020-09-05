@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
-import com.lbr.batchprocessing.batch.configuration.InputFileConfigProperties;
+import com.lbr.batchprocessing.batch.configurations.InputFileConfigProperties;
 import com.lbr.batchprocessing.batch.writers.LineMongoWriter;
 
 @Configuration

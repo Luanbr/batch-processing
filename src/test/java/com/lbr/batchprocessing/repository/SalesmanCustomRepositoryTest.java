@@ -1,7 +1,6 @@
 package com.lbr.batchprocessing.repository;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.springframework.test.annotation.DirtiesContext.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -9,18 +8,16 @@ import java.util.List;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.annotation.DirtiesContext;
+import org.springframework.test.annotation.DirtiesContext.ClassMode;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import com.lbr.batchprocessing.model.Salesman;
 
 @SpringBootTest
-@ExtendWith(SpringExtension.class)
 @ActiveProfiles("test")
 @DirtiesContext(classMode = ClassMode.BEFORE_EACH_TEST_METHOD)
 public class SalesmanCustomRepositoryTest {
@@ -29,11 +26,11 @@ public class SalesmanCustomRepositoryTest {
 	private MongoTemplate mongoTemplate;
 
 	@Autowired
-	private SalesmanCustomRepository repository;
+	private SalesmanCustomRepository salesmanCustomRepository;
 
 	@BeforeEach
 	void setup() {
-		clean();
+		cleanCollection();
 		List<Salesman> salespeople = new ArrayList<>();
 		salespeople.add(new Salesman(11156754334L, "Angela Pereira", 2330.00));
 		salespeople.add(new Salesman(11156754335L, "Eduardo Pereira", 2000.00));
@@ -48,15 +45,19 @@ public class SalesmanCustomRepositoryTest {
 		salespeople.forEach(mongoTemplate::save);
 	}
 
+	private void cleanCollection() {
+		mongoTemplate.dropCollection(Salesman.class);
+	}
+
 	@AfterEach
 	void clean() {
-		mongoTemplate.dropCollection(Salesman.class);
+		cleanCollection();
 	}
 
 	@Test
 	public void whenCountDistinctByCpf_thenReturnCorrect() {
 		Long countExpected = 8L;
-		assertEquals(countExpected, repository.countDistinctByCpf());
+		assertEquals(countExpected, salesmanCustomRepository.countDistinctByCpf());
 	}
-	
+
 }

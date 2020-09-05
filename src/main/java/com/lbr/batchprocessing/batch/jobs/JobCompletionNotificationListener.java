@@ -1,4 +1,4 @@
-package com.lbr.batchprocessing.batch;
+package com.lbr.batchprocessing.batch.jobs;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,7 +14,7 @@ public class JobCompletionNotificationListener extends JobExecutionListenerSuppo
     @Override
     public void afterJob(JobExecution jobExecution) {
         if (jobExecution.getStatus() == BatchStatus.COMPLETED) {
-          log.info("Job execution finished!");
+          log.info("Job execution ended successfully!");
         }
     }
 }

@@ -1,5 +1,5 @@
 package com.lbr.batchprocessing.service;
 
-public interface IService {
+public interface ILine {
 	void save(Object item);
 }

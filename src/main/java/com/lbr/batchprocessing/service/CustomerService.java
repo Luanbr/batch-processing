@@ -10,7 +10,7 @@ import com.lbr.batchprocessing.repository.CustomerCustomRepository;
 import com.lbr.batchprocessing.repository.CustomerRepository;
 
 @Service
-public class CustomerService implements IService {
+public class CustomerService implements ILine {
 
 	@Autowired
 	private CustomerRepository customerRepository;

@@ -17,7 +17,7 @@ public class ServiceFactory {
 	@Autowired
 	private SalesmanService salesmanService;
 
-	public IService create(Object item) {
+	public ILine create(Object item) {
 		if (item instanceof Customer) {
 			return customerService;
 		}

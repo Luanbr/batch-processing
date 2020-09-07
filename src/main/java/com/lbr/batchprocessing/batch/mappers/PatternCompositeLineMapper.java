@@ -49,7 +49,7 @@ public class PatternCompositeLineMapper {
 
 	@SuppressWarnings("rawtypes")
 	private Map<String, FieldSetMapper> getMapFieldSetMappers() {
-		String delimiter = inputConfigProperties.getDelimiter();
+		final String delimiter = inputConfigProperties.getDelimiter();
 		Map<String, FieldSetMapper> fieldSetMappers = new HashMap<>(3);
 		fieldSetMappers.put(String.format(FORMART, inputConfigProperties.getSalesmanLineId(), delimiter),
 				salesmanMapper);
@@ -60,7 +60,7 @@ public class PatternCompositeLineMapper {
 	}
 
 	private Map<String, LineTokenizer> getMapTokenizers() {
-		String delimiter = inputConfigProperties.getDelimiter();
+		final String delimiter = inputConfigProperties.getDelimiter();
 		Map<String, LineTokenizer> tokenizers = new HashMap<>(3);
 		tokenizers.put(String.format(FORMART, inputConfigProperties.getSalesmanLineId(), delimiter), salesmanTokenizer);
 		tokenizers.put(String.format(FORMART, inputConfigProperties.getCustomerLineId(), delimiter), customerTokenizer);

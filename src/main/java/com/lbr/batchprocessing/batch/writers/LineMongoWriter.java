@@ -8,7 +8,7 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.lbr.batchprocessing.service.ILine;
+import com.lbr.batchprocessing.service.IItemService;
 import com.lbr.batchprocessing.service.ServiceFactory;
 
 @Component
@@ -20,15 +20,15 @@ public class LineMongoWriter implements ItemWriter<Object> {
 
 	@Override
 	public void write(List<?> items) {
-		logger.info("Writing " + items.size() + " items on Mongo!!!");
+		logger.info("Writing " + items.size() + " items on MongoDB!!!");
 		items.forEach(item -> {
 			try {
-				final ILine service = serviceFactory.create(item);
+				final IItemService service = serviceFactory.create(item);
 				service.save(item);
 			} catch (Exception e) {
-				logger.error("Error in LineMongoWriter ", e);
+				logger.error("Error while writing on MongoDB ", e);
 			}
 		});
-		logger.info("Writing on Mongo Ended!!!");
+		logger.info("Writing on MongoDB Ended!!!");
 	}
 }

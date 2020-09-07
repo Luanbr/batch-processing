@@ -2,6 +2,8 @@ package com.lbr.batchprocessing.batch.scheduler;
 
 import java.time.LocalDateTime;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.core.Job;
 import org.springframework.batch.core.JobParametersBuilder;
 import org.springframework.batch.core.JobParametersInvalidException;
@@ -21,6 +23,8 @@ import com.lbr.batchprocessing.utils.DateUtils;
 @Profile("!test")
 @EnableScheduling
 public class RunJobScheduler {
+	private static final Logger logger = LoggerFactory.getLogger(RunJobScheduler.class);
+			
 	@Autowired
 	private JobLauncher jobLauncher;
 
@@ -29,8 +33,13 @@ public class RunJobScheduler {
 
 	@Scheduled(fixedDelayString = "${batch.schedulerInMilliseconds}")
 	public void runScheduled() throws JobExecutionAlreadyRunningException, JobRestartException, JobInstanceAlreadyCompleteException, JobParametersInvalidException {
-		jobLauncher.run(job, new JobParametersBuilder()
-				.addString("JobID", DateUtils.localDateTimeToyyyyMMddHHmmss(LocalDateTime.now()))
-				.toJobParameters());
+		try {
+			jobLauncher.run(job, new JobParametersBuilder()
+					.addString("JobID", DateUtils.localDateTimeToyyyyMMddHHmmss(LocalDateTime.now()))
+					.toJobParameters());
+		} catch (Exception e) {
+			logger.error("Error while running the job! ", e);
+			throw e;
+		}
 	}
 }

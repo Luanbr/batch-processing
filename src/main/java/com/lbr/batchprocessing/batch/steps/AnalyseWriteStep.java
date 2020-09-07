@@ -11,7 +11,7 @@ import com.lbr.batchprocessing.batch.writers.SummarizeWriter;
 import com.lbr.batchprocessing.model.Summarize;
 
 @Configuration
-public class WriteStep {
+public class AnalyseWriteStep {
 	
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;

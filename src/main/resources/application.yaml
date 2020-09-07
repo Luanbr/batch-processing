@@ -2,7 +2,7 @@ io:
   input:
     file: file://${user.home}/data/in/*.dat
     delimiter: ç
-    chunk: 50
+    chunk: 350
     skipLimit: 10
     salesmanLineId: "001" 
     customerLineId: "002"

@@ -12,7 +12,7 @@ import com.lbr.batchprocessing.repository.SaleRepository;
 import com.lbr.batchprocessing.repository.SaleCustomRepository;
 
 @Service
-public class SaleService implements ILine {
+public class SaleService implements IItemService {
 
 	@Autowired
 	private SaleRepository saleRepository;

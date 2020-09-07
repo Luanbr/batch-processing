@@ -5,6 +5,8 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.batch.item.ExecutionContext;
 import org.springframework.batch.item.ItemWriter;
 import org.springframework.batch.item.file.FlatFileItemWriter;
@@ -18,32 +20,39 @@ import com.lbr.batchprocessing.utils.DateUtils;
 
 @Component
 public class SummarizeWriter implements ItemWriter<Summarize> {
+	private static final Logger logger = LoggerFactory.getLogger(SummarizeWriter.class);
 
 	@Autowired
 	private OutputFileConfigProperties configProperties;
 
 	@Override
 	public void write(List<? extends Summarize> items) throws Exception {
+		logger.info("Writing summary file!");
 		FlatFileItemWriter<Summarize> fileItemWriter = new FlatFileItemWriter<>();
+		try {
 
-		final String today = DateUtils.localDateTimeToyyyyMMddHHmmss(LocalDateTime.now());
-		final String outputDir = configProperties.getDir();
-		final String extensionFile = configProperties.getExtension();
+			final String today = DateUtils.localDateTimeToyyyyMMddHHmmss(LocalDateTime.now());
+			final String outputDir = configProperties.getDir();
+			final String extensionFile = configProperties.getExtension();
 
-		fileItemWriter.setResource(new FileSystemResource(outputDir + today + extensionFile));
-		fileItemWriter.setAppendAllowed(false);
+			fileItemWriter.setResource(new FileSystemResource(outputDir + today + extensionFile));
+			fileItemWriter.setAppendAllowed(false);
 
-		fileItemWriter.setLineAggregator(summarize -> {
-			final List<String> line = Arrays.asList(Objects.toString(summarize.getCustomersQuantity(), ""),
-				Objects.toString(summarize.getSellersQuantity(), ""),
-				Objects.toString(summarize.getBiggestSale().getSaleId(), ""),
-				Objects.toString(summarize.getWorstSeller().getSalesmanName(), "")
-			);
-			return String.join(configProperties.getDelimiter(), line);
-		});
+			fileItemWriter.setLineAggregator(summarize -> {
+				final List<String> line = Arrays.asList(Objects.toString(summarize.getCustomersQuantity(), ""),
+						Objects.toString(summarize.getSellersQuantity(), ""),
+						Objects.toString(summarize.getBiggestSale().getSaleId(), ""),
+						Objects.toString(summarize.getWorstSeller().getSalesmanName(), ""));
+				return String.join(configProperties.getDelimiter(), line);
+			});
 
-		fileItemWriter.open(new ExecutionContext());
-		fileItemWriter.write(items);
-		fileItemWriter.close();
+			fileItemWriter.open(new ExecutionContext());
+			fileItemWriter.write(items);
+		} catch (Exception e) {
+			logger.error("Error writing summary file!", e);
+			throw e; 
+		} finally {
+			fileItemWriter.close();
+		}
 	}
 }

@@ -12,14 +12,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.test.context.ActiveProfiles;
-import org.springframework.test.context.TestPropertySource;
 
 import com.lbr.batchprocessing.model.BiggestSale;
 import com.lbr.batchprocessing.model.Item;
 import com.lbr.batchprocessing.model.Sale;
 import com.lbr.batchprocessing.model.WorstSalesman;
 
-//@TestPropertySource(properties = { "io.input.file=file://${user.home}/*.dat" })
 @SpringBootTest
 @ActiveProfiles("test")
 public class SaleCustomRepositoryTest {

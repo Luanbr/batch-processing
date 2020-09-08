@@ -15,7 +15,6 @@ import org.springframework.test.context.ActiveProfiles;
 @SpringBatchTest
 @SpringBootTest
 @ActiveProfiles("test")
-//@ContextConfiguration(classes = { BatchProcessingApplication.class })
 public class BatchIntegrationTest {
 
 	@Autowired

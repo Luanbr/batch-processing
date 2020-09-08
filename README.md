@@ -1,34 +1,28 @@
 # batch-processing
 * Required: JDK 11 <br />
-* Required: MongoDB
+* Required: Docker
 
-### MongoDB
-Configure MongoDB connection in src\main\resources.
+### MongoDB on Docker
+Before testing or running the application. Make sure to run the following command and that mongoDB has been started.
 
 ```sh
-spring:
-  data:
-    mongodb:
-      database: batch_db
-      port: 27017
-      host: localhost
-      #username: 
-      #password:
+docker-compose up
 ```
-### Build Application
+### Run Tests
 Linux
 ```sh
-./mvnw clean package -DskipTests
+./mvnw test
 ```
 Windows
 ```sh
-mvnw.cmd clean package -DskipTests
+mvnw.cmd test
 ```
-### Run Application
-
+### Build and Run Application
+Linux
 ```sh
-cd target
+./mvnw clean package -DskipTests && cd target && java -jar ./batch-processing-1.0.0.jar
 ```
+Windows
 ```sh
-java -jar .\batch-processing-1.0.0.jar
+mvnw.cmd clean package -DskipTests && cd target && java -jar .\batch-processing-1.0.0.jar
 ```

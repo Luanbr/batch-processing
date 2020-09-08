@@ -1,7 +1,5 @@
 package com.lbr.batchprocessing.service;
 
-import java.util.List;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -17,11 +15,7 @@ public class CustomerService implements IItemService {
 
 	@Autowired
 	private CustomerCustomRepository customerCustomRepository;
-	
-	public void saveAll(List<? extends Customer> customers) {
-		customerRepository.saveAll(customers);
-	}
-	
+		
 	public Long countDistinctByCnpj() {
 		return customerCustomRepository.countDistinctByCnpj();
 	}

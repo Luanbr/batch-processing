@@ -11,6 +11,11 @@ import com.lbr.batchprocessing.model.Salesman;
 
 import java.util.Objects;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Component
 public class SalesmanMapper implements FieldSetMapper<Salesman> {
 	private static final Logger logger = LoggerFactory.getLogger(SalesmanMapper.class);

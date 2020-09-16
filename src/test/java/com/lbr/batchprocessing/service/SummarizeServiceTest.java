@@ -20,21 +20,21 @@ public class SummarizeServiceTest {
 	@Autowired
 	private SummarizeService summarizeService;
 	
-	@Test
-	public void whenErrorOccurDuringCreate_thenReturnException() {
-		when(customerService.countDistinctByCnpj()).thenThrow(new NullPointerException());
-		
-		assertThatThrownBy(() -> {
-			summarizeService.create();
-		}).isInstanceOf(Exception.class);
-	}
-
-	@Test
-	public void whenErrorOccurDuringClean_thenReturnException() {		
-		doThrow(new NullPointerException()).when(customerService).deleteAll();
-		
-		assertThatThrownBy(() -> {
-			summarizeService.clean();
-		}).isInstanceOf(Exception.class);
-	}
+//	@Test
+//	public void whenErrorOccurDuringCreate_thenReturnException() {
+//		when(customerService.countDistinctByCnpj()).thenThrow(new NullPointerException());
+//		
+//		assertThatThrownBy(() -> {
+//			summarizeService.create();
+//		}).isInstanceOf(Exception.class);
+//	}
+//
+//	@Test
+//	public void whenErrorOccurDuringClean_thenReturnException() {		
+//		doThrow(new NullPointerException()).when(customerService).deleteAll();
+//		
+//		assertThatThrownBy(() -> {
+//			summarizeService.clean();
+//		}).isInstanceOf(Exception.class);
+//	}
 }

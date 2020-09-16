@@ -1,5 +1,10 @@
 package com.lbr.batchprocessing.model;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 public class Item {
 	private Long id;
 	private Long quantity;

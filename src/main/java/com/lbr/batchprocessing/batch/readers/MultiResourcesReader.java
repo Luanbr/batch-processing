@@ -15,6 +15,11 @@ import org.springframework.core.io.support.PathMatchingResourcePatternResolver;
 
 import com.lbr.batchprocessing.batch.configurations.InputFileConfigProperties;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Configuration
 public class MultiResourcesReader {
 	private static final Logger logger = LoggerFactory.getLogger(MultiResourcesReader.class);

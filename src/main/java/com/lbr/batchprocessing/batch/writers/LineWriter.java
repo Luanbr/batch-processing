@@ -8,27 +8,32 @@ import org.springframework.batch.item.ItemWriter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.lbr.batchprocessing.service.IItemService;
+import com.lbr.batchprocessing.service.ILineService;
 import com.lbr.batchprocessing.service.ServiceFactory;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Component
-public class LineMongoWriter implements ItemWriter<Object> {
-	private static final Logger logger = LoggerFactory.getLogger(LineMongoWriter.class);
+public class LineWriter implements ItemWriter<Object> {
+	private static final Logger logger = LoggerFactory.getLogger(LineWriter.class);
 
 	@Autowired
 	private ServiceFactory serviceFactory;
 
 	@Override
 	public void write(List<?> items) {
-		logger.info("Writing " + items.size() + " items on MongoDB!!!");
+		logger.info("Preparing " + items.size() + " items to summarize!!");
 		items.forEach(item -> {
 			try {
-				final IItemService service = serviceFactory.create(item);
-				service.save(item);
+				final ILineService service = serviceFactory.create(item);
+				service.process(item);
 			} catch (Exception e) {
-				logger.error("Error while writing on MongoDB ", e);
+				logger.error("Error while prepare items to summarize ", e);
 			}
 		});
-		logger.info("Writing on MongoDB Ended!!!");
+		logger.info("Preparing items to summarize ended!!!");
 	}
 }

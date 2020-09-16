@@ -19,6 +19,11 @@ import org.springframework.scheduling.annotation.Scheduled;
 
 import com.lbr.batchprocessing.utils.DateUtils;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Configuration
 @Profile("!test")
 @EnableScheduling

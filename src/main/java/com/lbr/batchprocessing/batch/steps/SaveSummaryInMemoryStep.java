@@ -11,10 +11,15 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
 import com.lbr.batchprocessing.batch.configurations.InputFileConfigProperties;
-import com.lbr.batchprocessing.batch.writers.LineMongoWriter;
+import com.lbr.batchprocessing.batch.writers.LineWriter;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Configuration
-public class SaveOnMongoStep {
+public class SaveSummaryInMemoryStep {
 
 	@Autowired
 	private InputFileConfigProperties inputConfigProperties;
@@ -23,15 +28,20 @@ public class SaveOnMongoStep {
 	private ItemReader<Object> multiResourceItemReader;
 
 	@Autowired
-	private LineMongoWriter lineMongoWriter;
+	private LineWriter lineWriter;
 
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
-
+	
 	@Bean
-	public Step readAndSaveOnMongoStep() throws IOException {
-		return stepBuilderFactory.get("readAndSaveOnMongoStep").<Object, Object>chunk(inputConfigProperties.getChunk())
-				.reader(multiResourceItemReader).faultTolerant().skip(FlatFileParseException.class)
-				.skipLimit(inputConfigProperties.getSkipLimit()).writer(lineMongoWriter).build();
+	public Step readAndSaveSummaryInMemoryStep() throws IOException {
+		return stepBuilderFactory.get("readAndSaveSummaryInMemoryStep")
+				.<Object, Object>chunk(inputConfigProperties.getChunk())
+				.reader(multiResourceItemReader)
+				.faultTolerant()
+				.skip(FlatFileParseException.class)
+				.skipLimit(inputConfigProperties.getSkipLimit())
+				.writer(lineWriter)
+				.build();
 	}
 }

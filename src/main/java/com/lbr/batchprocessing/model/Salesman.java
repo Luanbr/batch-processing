@@ -1,12 +1,11 @@
 package com.lbr.batchprocessing.model;
 
-import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.Document;
-
-@Document(collection = "salesmans")
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 public class Salesman {
-	@Id
-	private String _id;
 	private Long cpf;
 	private String name;
 	private Double salary;
@@ -47,7 +46,6 @@ public class Salesman {
 
 	@Override
 	public String toString() {
-		return "Salesman [_id=" + _id + ", cpf=" + cpf + ", name=" + name + ", salary=" + salary + "]";
+		return "Salesman [cpf=" + cpf + ", name=" + name + ", salary=" + salary + "]";
 	}
-
 }

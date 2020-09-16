@@ -16,14 +16,23 @@ import org.springframework.stereotype.Component;
 
 import com.lbr.batchprocessing.batch.configurations.OutputFileConfigProperties;
 import com.lbr.batchprocessing.model.Summarize;
+import com.lbr.batchprocessing.service.SummarizeService;
 import com.lbr.batchprocessing.utils.DateUtils;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Component
 public class SummarizeWriter implements ItemWriter<Summarize> {
 	private static final Logger logger = LoggerFactory.getLogger(SummarizeWriter.class);
 
 	@Autowired
 	private OutputFileConfigProperties configProperties;
+	
+	@Autowired
+	private SummarizeService summarizeService;
 
 	@Override
 	public void write(List<? extends Summarize> items) throws Exception {
@@ -45,9 +54,10 @@ public class SummarizeWriter implements ItemWriter<Summarize> {
 						Objects.toString(summarize.getWorstSeller().getSalesmanName(), ""));
 				return String.join(configProperties.getDelimiter(), line);
 			});
-
+	
 			fileItemWriter.open(new ExecutionContext());
 			fileItemWriter.write(items);
+			summarizeService.clean();
 		} catch (Exception e) {
 			logger.error("Error writing summary file!", e);
 			throw e; 

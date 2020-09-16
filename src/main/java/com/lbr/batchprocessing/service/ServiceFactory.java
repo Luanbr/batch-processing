@@ -6,6 +6,11 @@ import com.lbr.batchprocessing.model.Salesman;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Component
 public class ServiceFactory {
 	@Autowired
@@ -17,7 +22,7 @@ public class ServiceFactory {
 	@Autowired
 	private SalesmanService salesmanService;
 
-	public IItemService create(Object item) {
+	public ILineService create(Object item) {
 		if (item instanceof Customer) {
 			return customerService;
 		}

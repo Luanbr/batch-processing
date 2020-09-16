@@ -11,6 +11,11 @@ import com.lbr.batchprocessing.model.Customer;
 
 import java.util.Objects;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Component
 public class CustomerMapper implements FieldSetMapper<Customer> {
 	private static final Logger logger = LoggerFactory.getLogger(CustomerMapper.class);

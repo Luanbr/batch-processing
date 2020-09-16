@@ -15,6 +15,11 @@ import com.lbr.batchprocessing.batch.tokenizers.CustomerTokenizer;
 import com.lbr.batchprocessing.batch.tokenizers.SaleTokenizer;
 import com.lbr.batchprocessing.batch.tokenizers.SalesmanTokenizer;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Configuration
 public class PatternCompositeLineMapper {
 

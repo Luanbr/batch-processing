@@ -5,10 +5,12 @@ import java.util.List;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-@Document(collection = "sales")
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 public class Sale {
-	@Id
-	private String _id;
 	private Long saleId;
 	private List<Item> items;
 	private String salesmanName;
@@ -49,6 +51,6 @@ public class Sale {
 
 	@Override
 	public String toString() {
-		return "Sale [_id=" + _id + ", saleId=" + saleId + ", items=" + items + ", salesmanName=" + salesmanName + "]";
+		return "Sale [saleId=" + saleId + ", items=" + items + ", salesmanName=" + salesmanName + "]";
 	}
 }

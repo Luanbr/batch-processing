@@ -14,6 +14,11 @@ import org.springframework.validation.BindException;
 import com.lbr.batchprocessing.model.Item;
 import com.lbr.batchprocessing.model.Sale;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 @Component
 public class SaleMapper implements FieldSetMapper<Sale> {
 	private static final Logger logger = LoggerFactory.getLogger(SaleMapper.class);

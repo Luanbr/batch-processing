@@ -1,14 +1,12 @@
 package com.lbr.batchprocessing.batch.steps;
 
+import java.io.IOException;
+
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.configuration.annotation.StepBuilderFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-
-import com.lbr.batchprocessing.batch.readers.SummarizeReader;
-import com.lbr.batchprocessing.batch.writers.SummarizeWriter;
-import com.lbr.batchprocessing.model.Summarize;
 
 /**
  * 
@@ -16,24 +14,19 @@ import com.lbr.batchprocessing.model.Summarize;
  *
  */
 @Configuration
-public class AnalyseWriteStep {
-	
+public class CleanSummaryInMemoryStep {
+
 	@Autowired
 	private StepBuilderFactory stepBuilderFactory;
 	
 	@Autowired
-	private SummarizeWriter summarizeWriter;
+	private CleanSummaryInMemoryTasklet cleanSummaryInMemoryTasklet; 
 	
-	@Autowired
-	private SummarizeReader summarizeReader;
-
 	@Bean
-	public Step analyseAndWriteStep() {
+	public Step cleanSummaryStep() throws IOException {
 		return stepBuilderFactory
-				.get("analyseAndWriteStep")
-				.<Object, Summarize>chunk(1)
-				.reader(summarizeReader)
-				.writer(summarizeWriter).build();
+				.get("cleanSummaryStep")
+				.tasklet(cleanSummaryInMemoryTasklet)
+				.build();
 	}
-
 }

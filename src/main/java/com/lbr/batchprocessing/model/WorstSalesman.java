@@ -1,8 +1,13 @@
 package com.lbr.batchprocessing.model;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 public class WorstSalesman {
 	private String salesmanName;
-	private long total;
+	private Double total;
 
 	public String getSalesmanName() {
 		return salesmanName;
@@ -12,11 +17,11 @@ public class WorstSalesman {
 		this.salesmanName = salesmanName;
 	}
 
-	public long getTotal() {
+	public Double getTotal() {
 		return total;
 	}
 
-	public void setTotal(long total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
 

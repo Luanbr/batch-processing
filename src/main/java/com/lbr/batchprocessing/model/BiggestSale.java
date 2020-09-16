@@ -1,10 +1,15 @@
 package com.lbr.batchprocessing.model;
 
+/**
+ * 
+ * @author luan.barbosa.ramalho
+ *
+ */
 public class BiggestSale {
 
 	private Long saleId;
 
-	private long total;
+	private Double total = 0.0;
 
 	public Long getSaleId() {
 		return saleId;
@@ -14,11 +19,11 @@ public class BiggestSale {
 		this.saleId = saleId;
 	}
 
-	public long getTotal() {
+	public Double getTotal() {
 		return total;
 	}
 
-	public void setTotal(long total) {
+	public void setTotal(Double total) {
 		this.total = total;
 	}
 

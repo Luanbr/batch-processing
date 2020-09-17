@@ -14,13 +14,6 @@ io:
     delimiter: ;
       
 spring:
-  data:
-    mongodb:
-      database: admin
-      port: 27017
-      host: localhost
-      username: root
-      password: password
   batch:
     job:
       enabled: false

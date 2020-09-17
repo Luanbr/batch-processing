@@ -2,7 +2,7 @@ io:
   input:
     file: file://${user.home}/data/in/*.dat
     delimiter: ç
-    chunk: 350
+    chunk: 50
     skipLimit: 10
     salesmanLineId: "001" 
     customerLineId: "002"
@@ -17,13 +17,6 @@ batch:
   schedulerInMilliseconds: 60000
   
 spring:
-  data:
-    mongodb:
-      database: admin
-      port: 27017
-      host: localhost
-      username: root
-      password: password
   batch:
     job:
       enabled: false

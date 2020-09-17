@@ -72,4 +72,11 @@ public class Summarize {
 		return (this.customersQuantity == ZERO && this.sellersQuantity == ZERO && this.biggestSale.getSaleId() == null
 				&& this.worstSeller.getSalesmanName() == null);
 	}
+
+	@Override
+	public String toString() {
+		return "Summarize [customersQuantity=" + customersQuantity + ", sellersQuantity=" + sellersQuantity
+				+ ", biggestSale=" + biggestSale + ", worstSeller=" + worstSeller + ", salesmanTotalSalesMap="
+				+ salesmanTotalSalesMap + "]";
+	}
 }

@@ -1,4 +1,4 @@
-package com.lbr.batchprocessing.batch.scheduler;
+package com.lbr.batchprocessing.scheduler;
 
 import java.time.LocalDateTime;
 

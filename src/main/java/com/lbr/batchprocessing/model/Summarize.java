@@ -70,7 +70,7 @@ public class Summarize {
 
 	public boolean isEmpty() {
 		return (this.customersQuantity == ZERO && this.sellersQuantity == ZERO && this.biggestSale.getSaleId() == null
-				&& this.worstSeller.getSalesmanName() == null);
+				&& this.worstSeller.getSalesmanName() == null && this.salesmanTotalSalesMap.size() == ZERO);
 	}
 
 	@Override

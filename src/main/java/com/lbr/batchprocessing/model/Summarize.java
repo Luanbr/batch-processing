@@ -17,14 +17,14 @@ import org.springframework.stereotype.Component;
 public class Summarize {
 	private static final Long ZERO = 0L;
 	private Long customersQuantity;
-	private Long sellersQuantity;
+	private Long salespeopleQuantity;
 	private final BiggestSale biggestSale;
 	private final WorstSalesman worstSeller;
 	private final Map<String, Double> salesmanTotalSalesMap;
 
 	public Summarize() {
 		this.customersQuantity = ZERO;
-		this.sellersQuantity = ZERO;
+		this.salespeopleQuantity = ZERO;
 		this.biggestSale = new BiggestSale();
 		this.worstSeller = new WorstSalesman();
 		this.salesmanTotalSalesMap = new HashMap<String, Double>();
@@ -34,8 +34,8 @@ public class Summarize {
 		return customersQuantity;
 	}
 
-	public Long getSellersQuantity() {
-		return sellersQuantity;
+	public Long getSalespeopleQuantity() {
+		return salespeopleQuantity;
 	}
 
 	public BiggestSale getBiggestSale() {
@@ -49,33 +49,23 @@ public class Summarize {
 	public Map<String, Double> getSalesmanTotalSalesMap() {
 		return salesmanTotalSalesMap;
 	}
-
-	public void addCustomersCount() {
-		this.customersQuantity++;
+	
+	public void setCustomersQuantity(Long customersQuantity) {
+		this.customersQuantity = customersQuantity;
 	}
 
-	public void addSalespeopleCount() {
-		this.sellersQuantity++;
-	}
-
-	public void clean() {
-		this.customersQuantity = ZERO;
-		this.sellersQuantity = ZERO;
-		this.biggestSale.setSaleId(null);
-		this.biggestSale.setTotal(0.0);
-		this.worstSeller.setSalesmanName(null);
-		this.worstSeller.setTotal(0.0);
-		this.salesmanTotalSalesMap.clear();
+	public void setSalespeopleQuantity(Long salespeopleQuantity) {
+		this.salespeopleQuantity = salespeopleQuantity;
 	}
 
 	public boolean isEmpty() {
-		return (this.customersQuantity == ZERO && this.sellersQuantity == ZERO && this.biggestSale.getSaleId() == null
+		return (this.customersQuantity == ZERO && this.salespeopleQuantity == ZERO && this.biggestSale.getSaleId() == null
 				&& this.worstSeller.getSalesmanName() == null && this.salesmanTotalSalesMap.size() == ZERO);
 	}
 
 	@Override
 	public String toString() {
-		return "Summarize [customersQuantity=" + customersQuantity + ", sellersQuantity=" + sellersQuantity
+		return "Summarize [customersQuantity=" + customersQuantity + ", salespeopleQuantity=" + salespeopleQuantity
 				+ ", biggestSale=" + biggestSale + ", worstSeller=" + worstSeller + ", salesmanTotalSalesMap="
 				+ salesmanTotalSalesMap + "]";
 	}

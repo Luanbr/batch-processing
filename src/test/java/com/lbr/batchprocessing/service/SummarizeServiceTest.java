@@ -26,8 +26,8 @@ public class SummarizeServiceTest {
 	public void whenClean_thenCleanCorrectly() {
 		String salesmanName = "Luan";
 		Double totalSale = 15000.0;
-		summarize.addCustomersCount();
-		summarize.addSalespeopleCount();
+		summarize.setCustomersQuantity(1L);
+		summarize.setSalespeopleQuantity(1L);
 		summarize.getBiggestSale().setSaleId(123L);
 		summarize.getBiggestSale().setTotal(12.50);
 		summarize.getWorstSeller().setSalesmanName(salesmanName);
@@ -39,7 +39,7 @@ public class SummarizeServiceTest {
 		assertThat(summarize.isEmpty()).isTrue();
 
 		assertThat(summarize).matches(
-				summary -> summary.getCustomersQuantity() == 0 && summary.getSellersQuantity() == 0
+				summary -> summary.getCustomersQuantity() == 0 && summary.getSalespeopleQuantity() == 0
 						&& summary.getBiggestSale().getSaleId() == null && summary.getBiggestSale().getTotal() == 0
 						&& summary.getWorstSeller().getSalesmanName() == null
 						&& summary.getWorstSeller().getTotal() == 0 && summary.getSalesmanTotalSalesMap().size() == 0,
@@ -137,6 +137,6 @@ public class SummarizeServiceTest {
 
 	@AfterEach
 	public void clean() {
-		summarize.clean();
+		summarizeService.clean();
 	}
 }

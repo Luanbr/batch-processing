@@ -28,7 +28,13 @@ public class SummarizeService {
 
 	public void clean() {
 		try {
-			summarize.clean();
+			summarize.setCustomersQuantity(0L);
+			summarize.setSalespeopleQuantity(0L);
+			summarize.getBiggestSale().setSaleId(null);
+			summarize.getBiggestSale().setTotal(0.0);
+			summarize.getWorstSeller().setSalesmanName(null);
+			summarize.getWorstSeller().setTotal(0.0);
+			summarize.getSalesmanTotalSalesMap().clear();
 		} catch (Exception e) {
 			logger.error("Error during cleaning summary", e);
 			throw e;
@@ -36,11 +42,13 @@ public class SummarizeService {
 	}
 	
 	public void addCustomersCount() {
-		summarize.addCustomersCount();
+		Long customersQuantity = summarize.getCustomersQuantity() + 1;
+		summarize.setCustomersQuantity(customersQuantity);
 	}
 	
 	public void addSalespeopleCount() {
-		summarize.addSalespeopleCount();
+		Long salespeopleQuantity = summarize.getSalespeopleQuantity() + 1;
+		summarize.setSalespeopleQuantity(salespeopleQuantity);
 	}
 
 	public void updateBiggestSale(Long saleId, Double totalSale) {

@@ -49,7 +49,7 @@ public class SummarizeWriter implements ItemWriter<Summarize> {
 
 			fileItemWriter.setLineAggregator(summarize -> {
 				final List<String> line = Arrays.asList(Objects.toString(summarize.getCustomersQuantity(), ""),
-						Objects.toString(summarize.getSellersQuantity(), ""),
+						Objects.toString(summarize.getSalespeopleQuantity(), ""),
 						Objects.toString(summarize.getBiggestSale().getSaleId(), ""),
 						Objects.toString(summarize.getWorstSeller().getSalesmanName(), ""));
 				return String.join(configProperties.getDelimiter(), line);

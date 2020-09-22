@@ -10,6 +10,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import com.lbr.batchprocessing.model.Summarize;
+import com.lbr.batchprocessing.service.SummarizeService;
 
 @SpringBootTest
 @ActiveProfiles("test")
@@ -20,6 +21,9 @@ public class SummarizeReaderTest {
 	
 	@Autowired
 	private Summarize summarize;
+	
+	@Autowired
+	private SummarizeService summarizeService;
 	
 	@Test
 	public void whenReadAndSummarizeEmpty_thenReturnNull() {
@@ -36,7 +40,7 @@ public class SummarizeReaderTest {
 
 	@Test
 	public void whenErrorOccurDuringRead_thenReturnException() {
-		summarize.addCustomersCount();
+		summarize.setCustomersQuantity(1L);
 		assertThatThrownBy(() -> {
 			summarizeReader.read();
 		}).isInstanceOf(Exception.class);
@@ -44,6 +48,6 @@ public class SummarizeReaderTest {
 	
 	@AfterEach
 	public void clean() {
-		summarize.clean();
+		summarizeService.clean();
 	}
 }

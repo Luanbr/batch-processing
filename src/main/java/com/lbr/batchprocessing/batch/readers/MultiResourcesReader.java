@@ -4,6 +4,7 @@ import java.io.IOException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.batch.core.configuration.annotation.StepScope;
 import org.springframework.batch.item.ItemReader;
 import org.springframework.batch.item.file.FlatFileItemReader;
 import org.springframework.batch.item.file.MultiResourceItemReader;
@@ -31,6 +32,7 @@ public class MultiResourcesReader {
 	private InputFileConfigProperties inputConfigProperties;
 
 	@Bean
+	@StepScope
 	public ItemReader<Object> multiResourceItemReader() throws IOException {
 		try {
 			final String inputDirectory = inputConfigProperties.getFile();

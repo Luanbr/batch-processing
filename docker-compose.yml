@@ -1,0 +1,7 @@
+version: "3.7"
+services:
+    batch-processing:
+        image: batch-processing:latest
+        volumes:
+            - ${HOMEDRIVE}${HOMEPATH}/data/in://root/data/in
+            - ${HOMEDRIVE}${HOMEPATH}/data/out://root/data/out

@@ -69,7 +69,7 @@ Windows
 mvnw.cmd clean package -DskipTests && docker build -t batch-processing .
 ```
 #### Configurar Volume
-Como descrito anteriormente a aplição faz a leitura dos arquivos a partir do diretório padrão do usuário nas pastas data/in. Sendo assim, as variáveis HOMEDRIVE HOMEPATH devem ser substituídas para se adequar ao seu ambiente. Caso seu HOMEPATH já possua o drive por exemplo **C:**\Users\luan.abc então pode remover a variável HOMEDRIVE.
+Como descrito anteriormente a aplição faz a leitura dos arquivos a partir do diretório padrão do usuário nas pastas data/in. Sendo assim, é necessário mapear o volume para que funcione corretamente com o docker, as variáveis HOMEDRIVE HOMEPATH devem ser substituídas no arquivo docker-compose.yml para adequar-se ao seu ambiente. Caso sua variável HOMEPATH já possua o drive por exemplo **C:**\Users\luan.abc então você pode remover a variável HOMEDRIVE.
 ```sh
 version: "3.7"
 services:
